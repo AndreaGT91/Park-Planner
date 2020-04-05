@@ -183,22 +183,36 @@ var parkList = [];
 initializeParkData();
 
 function initializeParkData() {
-    var newPark;
+    // Display throbber. This takes several seconds to load. Hide dropdown menu until loaded
+    $("#loading").show();
+    $("#parksChooserDiv").hide();
 
+    // Make call to National Park Service to get a list of GA parks
     $.ajax({
         url: npsURL,
         method: "GET"
     }).then(function (response) {
         console.log(response);
 
-        for (let i=0; i<response.data.length; i++) {
-            newPark = response.data[i]; // set equal to whole park object
-            // if park is ONLY in GA (not multi-state park), then add to global list
-            if (newPark.states === "GA") {
-                parkList.push(newPark);    
+        // Check to make sure park is only in GA (not multi-state park), then add to parkList
+        var newIndex=0;
+        var newOption;
+        response.data.forEach(function (item) {
+            if (item.states === "GA") {
+                newIndex = parkList.push(item) - 1; //push returns new length
+                newOption = $("<option>"); // create new option for dropdown menu
+                newOption.text(item.fullName);
+                newOption.val(newIndex);
+                $("#parksChooser").append(newOption);
             }
-        }
+        })
+  
+        // Hide throbber, show dropdown menu
+        $("#loading").hide();
+        $("#parksChooserDiv").show();
     }).catch(function (error) {
+        // Hide throbber
+        $("#loading").hide();
         alert("Sorry, cannot retrieve park data. Try again later.")
     });
 }
