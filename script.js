@@ -1,5 +1,11 @@
 // NPS API key: BC3dYC7e66JYRo9zARWdKwuCsC4f3bFp93ViUP1Z
 const npsURL = "https://developer.nps.gov/api/v1/parks?stateCode=GA&api_key=BC3dYC7e66JYRo9zARWdKwuCsC4f3bFp93ViUP1Z";
+
+// OpenWeather API key: eee981012b240ab34d1f9eee38b81916
+const openWeatherEndPoint = "https://api.openweathermap.org/data/2.5/forecast";
+const openWeatherAPIkey = "&APPID=eee981012b240ab34d1f9eee38b81916";
+var openWeatherURL = openWeatherEndPoint + "?lat=33.7490&lon=-84.3880" + openWeatherAPIkey; // initialize to Atlanta
+
 // This is what the NPS response will look like:
 // [
 //     {
@@ -178,9 +184,70 @@ const npsURL = "https://developer.nps.gov/api/v1/parks?stateCode=GA&api_key=BC3d
 //       "start": "1"
 //     }
 //   ]
+
+// This is what the OpenWeather response looks like
+// {
+//     "cod": "200",
+//     "message": 0,
+//     "cnt": 40,
+//     "list": [
+//       {
+//         "dt": 1578409200,
+//         "main": {
+//           "temp": 284.92,
+//           "feels_like": 281.38,
+//           "temp_min": 283.58,
+//           "temp_max": 284.92,
+//           "pressure": 1020,
+//           "sea_level": 1020,
+//           "grnd_level": 1016,
+//           "humidity": 90,
+//           "temp_kf": 1.34
+//         },
+//         "weather": [
+//           {
+//             "id": 804,
+//             "main": "Clouds",
+//             "description": "overcast clouds",
+//             "icon": "04d"
+//           }
+//         ],
+//         "clouds": {
+//           "all": 100
+//         },
+//         "wind": {
+//           "speed": 5.19,
+//           "deg": 211
+//         },
+//         "sys": {
+//           "pod": "d"
+//         },
+//         "dt_txt": "2020-01-07 15:00:00"
+//       },
+      
+//       ...
+      
+//   "city": {
+//       "id": 2643743,
+//       "name": "London",
+//       "coord": {
+//         "lat": 51.5073,
+//         "lon": -0.1277
+//       },
+//       "country": "GB",
+//       "timezone": 0,
+//       "sunrise": 1578384285,
+//       "sunset": 1578413272
+//     }
+//   }
+
 var parkList = [];
 
-initializeParkData();
+initializeParkData(); // retrieve list of parks and populate parkList and pulldown menu
+
+$("#parksChooser").change(parkChooser); // event handler for dropdown menu
+
+loadWeather(33.7490, -84.3880); // TODO: for testing only
 
 function initializeParkData() {
     // Display throbber. This takes several seconds to load. Hide dropdown menu until loaded
@@ -191,11 +258,11 @@ function initializeParkData() {
     $.ajax({
         url: npsURL,
         method: "GET"
-    }).then(function (response) {
+    }).then(function (response) {s
         console.log(response);
 
         // Check to make sure park is only in GA (not multi-state park), then add to parkList
-        var newIndex=0;
+        var newIndex = 0;
         var newOption;
         response.data.forEach(function (item) {
             if (item.states === "GA") {
@@ -206,13 +273,33 @@ function initializeParkData() {
                 $("#parksChooser").append(newOption);
             }
         })
-  
+
         // Hide throbber, show dropdown menu
         $("#loading").hide();
         $("#parksChooserDiv").show();
     }).catch(function (error) {
         // Hide throbber
         $("#loading").hide();
+        // TODO: use something other than alert
         alert("Sorry, cannot retrieve park data. Try again later.")
+    });
+}
+
+function parkChooser() {
+    // TODO: replace alert with displaying park information
+    alert("You chose " + parkList[$(this).val()].fullName);
+}
+
+function loadWeather(lat, lon) {
+    openWeatherURL = openWeatherEndPoint + "?lat=" + lat + "&lon=" + lon    + openWeatherAPIkey;
+
+    $.ajax({
+        url: openWeatherURL,
+        method: "GET"
+    }).then(function (response) {
+        console.log(response);
+    }).catch(function (error) {
+        // TODO: use something other than alert
+        alert("Sorry, cannot retrieve weather data. Try again later.")
     });
 }
