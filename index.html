@@ -1,22 +1,100 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>National Parks in GA</title>
+    <!--<link rel="stylesheet" href=" https://cdnjs.cloudflare.com/ajax/libs/foundation/6.6.2/css/foundation.min.css" />
+        // <link rel="stylesheet" href=" https://cdnjs.cloudflare.com/ajax/libs/foundation/6.6.2/js/foundation.min.js" />  -->
+    <!-- <link rel="stylesheet" type="text/css" href="./css/semantic.min.css">  -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/components/icon.min.css" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
+        integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous" />
+    <link rel="stylesheet" href="./css/main_proj.css.css" />
 </head>
+
 <body>
+    <header id="homepage">
+        <div class=" ui stackable inverted secondary menu" id="menu">
+            <!-----------------Navigation  Section/ Logo-brand name --------->
+            <div class="ui container">
+                <div class="item">
+                    <!-- <img src="https://source.unsplash.com/random/200x200" alt="big-image">   --->
+                </div>
+                <div class="menu right">
+                    <a href="#" class="item"> Home </a>
+                    <a href="#" class="item"> Search for More Parks </a>
+                </div>
+            </div>
+        </div>
+        <div class="ui container">
+            <div class="ui two column grid padded">
+                <div class="row hom-txt">
+                    <div class="column">
+                        <h1>Live Life at its Fullest <b class="ui green header"> </b></h1>
+                        <p> This is where alittle description about this site will be written. Lorem ipsum dolor
+                            sit amet
+                            consectetur adipisicing elit. Reiciendis, sequi at quidem fugit in eius earum,
+                            dolorem ad,
+                            excepturi sit nesciunt nulla dolores. Dolorem inventore saepe distinctio dolore,
+                            iusto ratione.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
     <!-- Loading image to be displayed while loading park data -->
     <img src="https://media.giphy.com/media/3ov9k0BZQL358k458s/giphy.gif" alt="Loading" id="loading">
-
-    <!-- Drop down list for parks; list built in javascript -->
+    <div class="ui container">
+        <div>
+            <h1 class="ui center aligned header">Explore the map - Find your Park!</h1>
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Recusandae aut blanditiis tempore, placeat,
+                expedita, a cumque cupiditate ab eos consequatur maxime accusantium illum ipsum explicabo similique
+                maiores dolorem quos perspiciatis?</p>
+        </div>
+        <div class="ui three column grid">
+            <div class="row" style="margin-top: 50px;">
+                <div class="column">
+                    <div class="ui segment">
+                        <div class="ui center aligned icon header">
+                            <i class="green address card outline icon"></i>
+                            <h1 class="ui header"> In here goes park name</h1>
+                        </div>
+                        <ul>
+                            <li>
+                                Location:
+                                Contact:
+                                Operating hours:
+                                Entrance fee/pass information:
+                                Weather:
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Loading image to be displayed while loading park data -->
+    <!-- <img src="https://media.giphy.com/media/3ov9k0BZQL358k458s/giphy.gif" alt="Loading" id="loading">
+    // Drop down list for parks; list built in javascript //
     <div id="parksChooserDiv">
         <label for="parksChooser">Pick a park:</label>
         <select id="parksChooser">
         </select>
     </div>
+    </div>  -->
+    <!-- Drop down list for parks; list built in javascript -->
+    <!-- <div id="parksChooserDiv">
+        <label for="parksChooser">Pick a park:</label>
+        <select id="parksChooser">
+        </select>
+    </div> -->
 
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="./script.js"></script>
 </body>
+
 </html>
