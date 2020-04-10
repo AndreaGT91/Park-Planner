@@ -1,1 +1,57 @@
+/* Custom Stylesheet */
 
+* {
+  margin: 0;
+  padding: 0;
+}
+
+.main-wrapper {
+  width: 100%;
+  position: relative;
+}
+
+/* .menu-holder 
+  width: 80%;
+  margin: 0 auto;
+  z-index: 9999;
+
+}   */
+
+#dropdown1 {
+  background-color: black;
+}
+
+nav {
+  background-color: darkolivegreen;
+}
+
+.slider-holder {
+  width: 100%;
+  position: absolute;
+  top: 0;
+  z-index: -1;
+
+}
+
+/* nav 
+  background: transparent;
+}   */
+
+.carousel-item {
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+
+}
+
+.carousel.carousel-slider {
+  height: 85vh !important;
+}
+
+.parkInfo {
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+#exploreMap {
+  margin-left: 5px;
+}
