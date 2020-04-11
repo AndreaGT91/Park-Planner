@@ -26,18 +26,32 @@
 </head>
 
 <body>
+  
+    <ul class="dropdown-content" id="parksChooser">
+      <!-- dropdown list built in javascript -->
+  </ul>
+  <nav>
+      <div class="nav-wrapper navbar-fixed">
+          <a href="#!" class="brand-logo">Park Planner</a>
+          <ul class="right hide-on-med-and-down" id="parksChooserDiv">
+              <!-- Dropdown Trigger -->
+              <li><a class="dropdown-trigger" href="#!" data-target="parksChooser">Pick a Park:<i
+                          class="material-icons right">arrow_drop_down</i></a></li>
+          </ul>
+      </div>
+  </nav>
+
+
   <!-- Navbar -->
   <nav class="" role="navigation">
     <div class="nav-wrapper container">
       <a id="logo-container" href="#" class="brand-logo"> Park Planner </a>
-      <ul class="right hide-on-med-and-down">
+      <ul class="right hide-on-med-and-down" id="parksChooserDiv">
         <!-- Dropdown Trigger -->
-        <a class='dropdown-trigger btn' href='#' data-target='dropdown1' style="width: 500px;"> Find a Park </a>
+        <li><a class='dropdown-trigger btn' href='#' data-target='parksChooser' style="width: 500px;"> Find a Park </a></li>
         <!-- Dropdown Structure -->
-        <ul id='dropdown1' class='dropdown-content'>
-          <li><a> Park1 </a></li>
-          <li><a> Park2 </a></li>
-          <option value="#"> Park1 </option>
+        <ul id='dropdown1' class='dropdown-content' id="parksChooser">
+  
         </ul>
         <!-- <ul id="nav-mobile" class="sidenav">
           <li><a href="#"> Find a Park </a></li>
