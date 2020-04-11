@@ -25,9 +25,13 @@
   background: rgb(255, 255, 255, .2)
 }
 
+#parksChooserDiv {
+    margin-right: 50px;
+}
 
-#dropdown1 {
+#parksChooser {
   background-color: black;
+  white-space: nowrap;
 }
 
 nav {
