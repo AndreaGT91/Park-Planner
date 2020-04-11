@@ -27,21 +27,9 @@
 
 <body>
   
-    <ul class="dropdown-content" id="parksChooser">
-      <!-- dropdown list built in javascript -->
+  <ul class="dropdown-content" id="parksChooser">
+    <!-- dropdown list built in javascript -->
   </ul>
-  <nav>
-      <div class="nav-wrapper navbar-fixed">
-          <a href="#!" class="brand-logo">Park Planner</a>
-          <ul class="right hide-on-med-and-down" id="parksChooserDiv">
-              <!-- Dropdown Trigger -->
-              <li><a class="dropdown-trigger" href="#!" data-target="parksChooser">Pick a Park:<i
-                          class="material-icons right">arrow_drop_down</i></a></li>
-          </ul>
-      </div>
-  </nav>
-
-
   <!-- Navbar -->
   <nav class="" role="navigation">
     <div class="nav-wrapper container">
@@ -53,9 +41,6 @@
         <ul id='dropdown1' class='dropdown-content' id="parksChooser">
   
         </ul>
-        <!-- <ul id="nav-mobile" class="sidenav">
-          <li><a href="#"> Find a Park </a></li>
-        </ul> -->
     </div>
   </nav>
 
@@ -150,28 +135,8 @@
       var URL = `http://api.openweathermap.org/data/2.5/weather?q=${location}&APPID=fedf8af71a69ed785569f9a644c3f570`
 
       $.getJSON(URL, function (data) {
-        showCurrentWeather(data);
         getFiveDayForecast(location)
       });
-    }
-
-    function showCurrentWeather(data) {
-      var tempF = Math.floor(((data.main.temp - 273.15) * (9 / 5)) + 32);
-      
-      currTemp =  $("#currentTemp").text(tempF + " °F");
-      currHum = $("#currentHumidity").text(data.main.humidity + " %")
-      
-      
-      // var icon = `http://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png`;
-      // var tempF = Math.floor(((data.main.temp - 273.15) * (9 / 5)) + 32);
-
-      // $("#currentCity").text(data.name)
-      // $("#currentDate").text(moment().format("(M/DD/YYYY)"))
-      // $("#currentIcon").attr("src", icon)
-      // $("#currentTemp").text(tempF + " °F")
-      // $("#currentHumidity").text(data.main.humidity + " %")
-      // $("#currentWind").text(data.wind.speed + " MPH")
-      // getCurrentUV(data.coord.lon, data.coord.lat);
     }
 
       function getFiveDayForecast(location) {
@@ -237,6 +202,9 @@
 
 
     </script>
+
+<script src="script.js"></script>
+
 
 </body>
 

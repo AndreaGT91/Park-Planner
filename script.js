@@ -126,7 +126,7 @@ function initializeParkData() {
 	$("#loading").show();
 	$("#parksChooserDiv").hide();
 
-	const parkHtml1 = '<li style="width: 100px"><a href="#!" value=';
+	const parkHtml1 = '<li style="width: 100%"><a href="#!" value=';
 	const parkHtml2 = ">";
 	const parkHtml3 = "</a></li>";
 
