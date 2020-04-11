@@ -1,22 +1,246 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>National Parks in GA</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <!------------------ CSS  --------------->
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css"
+    integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
+    crossorigin="" />
+
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
+    integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous" />
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+
+  <title> Project 1 - Team Code Club </title>
+
 </head>
+
 <body>
-    <!-- Loading image to be displayed while loading park data -->
-    <img src="https://media.giphy.com/media/3ov9k0BZQL358k458s/giphy.gif" alt="Loading" id="loading">
+  <!------------------ Navigation Section  ----------------->
 
-    <!-- Drop down list for parks; list built in javascript -->
-    <div id="parksChooserDiv">
-        <label for="parksChooser">Pick a park:</label>
-        <select id="parksChooser">
-        </select>
+  <nav>
+    <div class="nav-wrapper">
+      <a href="#!" class="brand-logo"> Park Planner </a>
+      <ul class="right hide-on-med-and-down">
+        <div class="parksChooserDiv">
+          <select class="browser-default" id="parksChooser">
+            <option value="" disabled selected><label for="parksChooser"> Pick a Park: </label></option>
+            <option value="Park1"> Park 1</option>
+            <option value="Park2"> Park 2</option>
+            <option value="Park3"> Park 3</option>
+          </select>
+
+      </ul>
     </div>
+  </nav>
+  </div>
+  </div>
+  <!--------------------  Carousel Section : Creating the carousel alongside a card
+   that holds details about each Park      -------------------------------->
+  <div class="main-wrapper">
+    <div class="slider-holder">
 
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-    <script src="./script.js"></script>
+
+      <div class="carousel carousel-slider row">
+        <a class="carousel-item" href="#one!"><img src="https://lorempixel.com/800/400/food/1"></a>
+        <a class="carousel-item" href="#two!"><img src="https://lorempixel.com/800/400/food/2"></a>
+        <a class="carousel-item" href="#three!"><img src="https://lorempixel.com/800/400/food/3"></a>
+        <a class="carousel-item" href="#four!"><img src="https://lorempixel.com/800/400/food/4"></a>
+        <div class="row">
+          <div class="col s12 m3" id="parkNameCard">
+            <div class="card  darken-1">
+              <div class="card-content black-text">
+                <span class="card-title" id="parkName"> Park Name </span><br>
+                <ul class="parkInfo">
+                  <li> City: </li><br>
+                  <li> Description: </li><br>
+                  <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Temporibus alias autem animi iste!
+                    Consequuntur eos quidem maxime, explicabo facilis quos vel eius, sapiente a aperiam autem maiores
+                    illo
+                    nostrum. Pariatur.</p><br>
+                  <li> Park hours: </li><br>
+                  <li> Entrance Fee: </li> <br>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-----------------  MAP of Park Location Section //OR displaying a 5-day weather forecast
+        depending on the User's Se;ection//  ------------ -->
+      <div class="main-wrapper">
+        <div class="map-holder">
+
+          <div class="row">
+            <div class="col s12 m3">
+              <div class="card">
+                <div class="card-Image">
+                  <span class="card-title"> Today's Weather </span><br>
+                </div>
+                <div class="class-content">
+                  <ul class="parkInfo" id="parkInfo2">
+                    <li id="showWeather"> Weather: </li><br>
+                    <li id="latitude"> Latitude: </li><br>
+                    <li id="location"> Park Location: </li> <br>
+                  </ul>
+                </div>
+
+              </div>
+            </div>
+            <div class="col l8 m12 s12" id="forcast">
+              <div class="card">
+                <div class="card-Image center-align">
+                  <span class="card-title ">5 day forcast</span>
+                </div>
+                <div class="class-content">
+
+                  <!-----------------Cards for 5-day weather forecast ----------------------->
+                  <div class="row">
+                    <div class="col l2 m12 s12 offset-l1">
+                      <div class="card">
+                        <div class="card-Image">
+                          <span class="card-title"> Today's Weather </span><br>
+                        </div>
+                        <div class="class-content">
+                          <ul class="parkInfo">
+                            <li> Weather: </li><br>
+                            <li> Latitude: </li><br>
+                            <li> Park Location: </li> <br>
+                          </ul>
+                        </div>
+
+                      </div>
+                    </div>
+                    <div class="col l2 m12 s12">
+                      <div class="card">
+                        <div class="card-Image">
+                          <span class="card-title"> Tomorrow's Weather </span><br>
+                        </div>
+                        <div class="class-content">
+                          <ul class="parkInfo">
+                            <li> Weather: </li><br>
+                            <li> Latitude: </li><br>
+                            <li> Park Location: </li> <br>
+                          </ul>
+                        </div>
+
+                      </div>
+                    </div>
+                    <div class="col l2 m12 s12">
+                      <div class="card">
+                        <div class="card-Image">
+                          <span class="card-title"> Next Tomorrow's Weather </span><br>
+                        </div>
+                        <div class="class-content">
+                          <ul class="parkInfo">
+                            <li> Weather: </li><br>
+                            <li> Latitude: </li><br>
+                            <li> Park Location: </li> <br>
+                          </ul>
+                        </div>
+
+                      </div>
+                    </div>
+                    <div class="col l2 m12 s12">
+                      <div class="card">
+                        <div class="card-Image">
+                          <span class="card-title"> Day 4 Weather </span><br>
+                        </div>
+                        <div class="class-content">
+                          <ul class="parkInfo">
+                            <li> Weather: </li><br>
+                            <li> Latitude: </li><br>
+                            <li> Park Location: </li> <br>
+                          </ul>
+                        </div>
+
+                      </div>
+                    </div>
+                    <div class="col l2 m12 s12">
+                      <div class="card">
+                        <div class="card-Image">
+                          <span class="card-title"> TDay 5 Weather </span><br>
+                        </div>
+                        <div class="class-content">
+                          <ul class="parkInfo">
+                            <li> Weather: </li><br>
+                            <li> Latitude: </li><br>
+                            <li> Park Location: </li> <br>
+                          </ul>
+                        </div>
+
+                      </div>
+                    </div>
+
+                  </div>
+
+
+
+                </div>
+              </div>
+            </div>
+
+            <div class="col l8 m12 s12" id="customMap">
+              <div class="card">
+                <div class="card-Image center-align">
+                  <span class="card-title ">Explore the Map</span>
+                </div>
+                <div class="class-content">
+
+                  <!------- iframe/the map below was just gotten from google maps for a temporal display ---------->
+                  <iframe
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3439666.0572147225!2d-85.42281499103336!3d32.6581432687031!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x88f136c51d5f8157%3A0x6684bc10ec4f10e7!2sGeorgia!5e0!3m2!1sen!2sus!4v1586501229644!5m2!1sen!2sus"
+                    width="100%" height="400" frameborder="0" style="border:0;" allowfullscreen="" aria-hidden="false"
+                    tabindex="0"></iframe>
+
+                  <!-----------------  Display section: Temperature/Weather forecast, longitude, latitude,
+                - Park Location...----->
+                </div>
+              </div>
+            </div>
+
+            <div class="col l8 m12 s12" id="showLatitude">
+              <div class="card">
+                <div class="card-Image center-align">
+                  <span class="card-title ">Latitude</span>
+                </div>
+                <div class="class-content">
+
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-----------------  Footer Section ------------ -->
+      <footer class="page-footer black darken-3">
+        <div class="footer-copyright grey darken-4">
+          <div class="container center-align">Contact Us: codeclub@address.com</div>
+        </div>
+      </footer>
+
+    </div>
+  </div>
+  </div>
+  </div>
+
+  <!------------- Compiled and minified JavaScript ------------->
+
+  <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+  <script src="script.js"></script>
+
+
 </body>
+
 </html>
