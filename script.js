@@ -1,4 +1,9 @@
 /* 
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> 4165d4eb7a09b3cce3e8bffb497532a2cfa00850
 $.get("https://developer.nps.gov/api/v1/parks?parkCode=&q=georgia").then(function (res) {
     console.log(res)
 }) */
