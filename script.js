@@ -160,7 +160,7 @@ function getCurrentWeather(location) {
 			$("#forecastFiveDay").append(`
 	  <div class="col m2">
 		<div class="col">
-		  <div class="card blue-grey darken-1" style="width:200px; ">
+		  <div class="card grey" style="width:200px; ">
 			<div class="card-content white-text center" style="width: 200px;">
 			  <span class="card-title">${time}</span>
 			  <img src="http://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png"></img>
@@ -194,7 +194,7 @@ function getCurrentWeather(location) {
 	  $("#forecastFiveDay").append(`
 		<div class="col m2">
 			<div class="col">
-				<div class="card blue-grey darken-1">
+				<div class="card grey">
 					<div class="card-content white-text center" style="width: 200px;">
 						<span class="card-title">${makeTime[0]}</span>
 						<img src="http://openweathermap.org/img/wn/${dailyData.weather[0].icon}@2x.png"></img>
