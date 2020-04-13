@@ -6,6 +6,8 @@ const openWeatherEndPoint = "https://api.openweathermap.org/data/2.5/forecast";
 const openWeatherAPIkey = "&APPID=eee981012b240ab34d1f9eee38b81916";
 var openWeatherURL = openWeatherEndPoint + "?lat=33.7490&lon=-84.3880" + openWeatherAPIkey; // initialize to Atlanta
 
+const mapBoxAPI = "pk.eyJ1IjoiYW5kcmVhZ3Q5MSIsImEiOiJjazh5d2E1ZjIxbWMzM2xxcWo3N3ZzY2RxIn0.Y7XvFoNwX0QmBjOWDGa6kw";
+
 const parkListName = "parkPlannerList";
 var parkList = [];
 var parkPics = [];
@@ -113,8 +115,8 @@ function doParkPick(event) {
 	var index = $(this).val();
 	var parkHours = parkList[index].operatingHours[0].standardHours;
 
-	currentLat = parkList[index].latLong.lat;
-	currentLon = parkList[index].latLong.long;
+	currentLat = parkList[index].latitude;
+	currentLon = parkList[index].longitude;
 
 	$("#park-name").text(parkList[index].fullName);
 	$("#park-city").text("City: " + parkList[index].addresses[0].city);
@@ -129,6 +131,7 @@ function doParkPick(event) {
 	$("#sat").text("Saturday: " + parkHours.saturday);
 
 	loadParkImages(index);
+	displayMap();
 }
 
 // Load park images into array
@@ -218,4 +221,19 @@ function getCurrentWeather(location) {
 			</div>
 	  `)
 	}
+  }
+
+  function displayMap() {
+	var mymap = L.map("park-map").setView([currentLat, currentLon], 13);
+
+	L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=' + mapBoxAPI, {
+    	attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+    	maxZoom: 18,
+    	id: 'mapbox/streets-v11',
+    	tileSize: 512,
+    	zoomOffset: -1,
+    	accessToken: mapBoxAPI
+	}).addTo(mymap);
+
+	var marker = L.marker([currentLat, currentLon]).addTo(mymap);
   }

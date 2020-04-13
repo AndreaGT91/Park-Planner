@@ -1,74 +1,45 @@
 /* Custom Stylesheet */
 
-/* * {
-  margin: 0;
-  padding: 0;
-} */
-
-/* .main-wrapper {
-  width: 100%;
-  position: relative;
-} */
-
-/* .menu-holder 
-  width: 80%;
-  margin: 0 auto;
-  z-index: 9999;
-
-}   */
-/* #parkNameCard {
-  height: 408.889px;
-  overflow: auto;
-}
-
-#parkNameCard .card {
-  background: rgb(255, 255, 255, .2)
-} */
-
-/* #parksChooserDiv {
-    margin-right: 50px;
-} */
-
 nav {
   background-color: darkolivegreen;
   padding-left: 50px;
   padding-right: 50px;
 }
 
-/* .slider-holder {
+.map {
+  height: 400px;
   width: 100%;
-  position: absolute;
-  top: 0;
-  z-index: -1;
-
-}
- */
-/* .carousel-item {
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-
 }
 
-.carousel.carousel-slider {
-  height: 85vh !important;
-} */
-
-/* .parkInfo {
-  font-family: Verdana, Geneva, Tahoma, sans-serif;
+.park-info-box {
+  margin-right: 5px; 
+  margin-left: 3%; 
+  margin-top: 10px;
 }
 
-#exploreMap {
-  margin-left: 5px;
+.park-info-card {
+  width: 100%;
 }
 
-
-#forcast {
-  display: none;
-
+.park-pictures {
+  max-width: 100%; 
+  margin-top: 8px;
 }
 
-#showLatitude {
-  display: none;
+.line-break {
+  margin-left: 1%; 
+  margin-right: 1%;
+}
 
-} */
+.park-info-div {
+  margin-left: 3%; 
+  margin-right: 3%;
+}
+
+.park-weather {
+  width: 200px;
+}
+
+#parksChooserDiv {
+  width: 400px;
+}
