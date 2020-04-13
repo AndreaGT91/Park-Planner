@@ -38,6 +38,11 @@ h5 {
   width: 200px;
 }
 
+.park-footer {
+  background-color: darkolivegreen;
+  padding-top: 0;
+}
+
 #parksChooserDiv {
   width: 400px;
 }
