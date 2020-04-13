@@ -9,6 +9,8 @@ var openWeatherURL = openWeatherEndPoint + "?lat=33.7490&lon=-84.3880" + openWea
 const parkListName = "parkPlannerList";
 var parkList = [];
 var parkPics = [];
+var currentLat = 33.7490; // initialize to Atlanta
+var currentLon = -84.388;
 
 //----Shows and Hides forecast, Latitude and the Map divs.(you can always update the list) ------//
 $(document).ready(function () {
@@ -66,6 +68,7 @@ function initializeParkData() {
 			$("#parksChooser").append(parkHtml1 + i + parkHtml2 + parkList[i].fullName + parkHtml3);
 		}
 
+		loadParkImages(-1);
 		$("#loading").hide();
 		$("#parksChooserDiv").show();
 		$("#park-info").show();
@@ -91,6 +94,7 @@ function initializeParkData() {
 				}
 
 				// Hide loading, show dropdown menu
+				loadParkImages(-1);
 				$("#loading").hide();
 				$("#parksChooserDiv").show();
 				$("#park-info").show();
@@ -104,9 +108,13 @@ function initializeParkData() {
 	}
 }
 
-// Display park data for given park
-function displayParkInfo(index) {
+// OnChange event for dropdown list
+function doParkPick(event) {
+	var index = $(this).val();
 	var parkHours = parkList[index].operatingHours[0].standardHours;
+
+	currentLat = parkList[index].latLong.lat;
+	currentLon = parkList[index].latLong.long;
 
 	$("#park-name").text(parkList[index].fullName);
 	$("#park-city").text("City: " + parkList[index].addresses[0].city);
@@ -119,11 +127,28 @@ function displayParkInfo(index) {
 	$("#thu").text("Thursday: " + parkHours.thursday);
 	$("#fri").text("Friday: " + parkHours.friday);
 	$("#sat").text("Saturday: " + parkHours.saturday);
+
+	loadParkImages(index);
 }
 
-// OnChange event for dropdown list
-function doParkPick(event) {
-	displayParkInfo($(this).val());
+// Load park images into array
+function loadParkImages(parkIndex) {
+
+	function loadOnePark(index) {
+		for (let i=0; i<parkList[index].images.length; i++) {
+			parkPics.push(parkList[index].images[i].url);
+		}
+	}
+
+	// If valid index, load images just for that park; else load all parks' images
+	if ((parkIndex >= 0) && (parkIndex < parkList.length)) {
+		loadOnePark(parkIndex);
+	}
+	else {
+		for (let i=0; i<parkList.length; i++) {
+			loadOnePark(i);
+		}
+	}
 }
 
 function getCurrentWeather(location) {
