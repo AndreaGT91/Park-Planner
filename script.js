@@ -6,9 +6,12 @@ const openWeatherEndPoint = "https://api.openweathermap.org/data/2.5/forecast";
 const openWeatherAPIkey = "&APPID=eee981012b240ab34d1f9eee38b81916";
 var openWeatherURL = openWeatherEndPoint + "?lat=33.7490&lon=-84.3880" + openWeatherAPIkey; // initialize to Atlanta
 
+const mapBoxAPI = "pk.eyJ1IjoiYW5kcmVhZ3Q5MSIsImEiOiJjazh5d2E1ZjIxbWMzM2xxcWo3N3ZzY2RxIn0.Y7XvFoNwX0QmBjOWDGa6kw";
+
 const parkListName = "parkPlannerList";
 var parkList = [];
 var parkPics = [];
+var parkMap; // Link to map object
 var currentLat = 33.7490; // initialize to Atlanta
 var currentLon = -84.388;
 
@@ -17,34 +20,14 @@ $(document).ready(function () {
 	initializeParkData(); // retrieve list of parks and populate parkList and dropdown menu
 
 	$("#parksChooser").change(doParkPick); // onChange event for dropdown list
-
+	$(".park-info-box").click(doClickedInfo); // onClick event for park info/carousel
 	$("select").formSelect();
+
+	parkMap = L.map("park-map");
 
 	// Materialize animation code for front - end
 	M.AutoInit();
 	getCurrentWeather("cumming");
-
-	// $("#parkInfo2 li").on("click", function () {
-	// 	console.log($(this).attr("id"));
-	// 	const action = $(this).attr("id");
-	// 	if (action === "showWeather") {
-	// 		$("#forcast").show();
-	// 		$("#showLatitude").hide();
-	// 		$("#customMap").hide();
-	// 	} else if (action === "latitude") {
-	// 		$("#forcast").hide();
-	// 		$("#showLatitude").show();
-	// 		$("#customMap").hide();
-	// 	} else {
-	// 		$("#forcast").hide();
-	// 		$("#showLatitude").hide();
-	// 		$("#customMap").show();
-	// 	}
-	// });
-	// $(".carousel.carousel-slider").carousel({
-	// 	fullWidth: true,
-	// });
-	// $(".sidenav-trigger").sidenav();
 });
 
 // Retrieves park data from either localstorage or by making API call
@@ -101,20 +84,18 @@ function initializeParkData() {
 			})
 			.catch(function (error) {
 				// Hide loading
-				// $("#loading").hide();
+				$("#loading").hide();
 				// TODO: use something other than alert
 				alert("Sorry, cannot retrieve park data. Try again later.");
 			});
 	}
 }
 
-// OnChange event for dropdown list
-function doParkPick(event) {
-	var index = $(this).val();
+function loadParkWeatherAndMap(index) {
 	var parkHours = parkList[index].operatingHours[0].standardHours;
 
-	currentLat = parkList[index].latLong.lat;
-	currentLon = parkList[index].latLong.long;
+	currentLat = parkList[index].latitude;
+	currentLon = parkList[index].longitude;
 
 	$("#park-name").text(parkList[index].fullName);
 	$("#park-city").text("City: " + parkList[index].addresses[0].city);
@@ -129,6 +110,14 @@ function doParkPick(event) {
 	$("#sat").text("Saturday: " + parkHours.saturday);
 
 	loadParkImages(index);
+	$("#park-weather-map").show();
+	displayMap();
+}
+
+// OnChange event for dropdown list
+function doParkPick(event) {
+	var index = $(this).val();
+	loadParkWeatherAndMap(index);
 }
 
 // Load park images into array
@@ -171,7 +160,7 @@ function getCurrentWeather(location) {
 			$("#forecastFiveDay").append(`
 	  <div class="col m2">
 		<div class="col">
-		  <div class="card blue-grey darken-1" style="width:200px; ">
+		  <div class="card grey" style="width:200px; ">
 			<div class="card-content white-text center" style="width: 200px;">
 			  <span class="card-title">${time}</span>
 			  <img src="http://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png"></img>
@@ -205,7 +194,7 @@ function getCurrentWeather(location) {
 	  $("#forecastFiveDay").append(`
 		<div class="col m2">
 			<div class="col">
-				<div class="card blue-grey darken-1">
+				<div class="card grey">
 					<div class="card-content white-text center" style="width: 200px;">
 						<span class="card-title">${makeTime[0]}</span>
 						<img src="http://openweathermap.org/img/wn/${dailyData.weather[0].icon}@2x.png"></img>
@@ -219,3 +208,26 @@ function getCurrentWeather(location) {
 	  `)
 	}
   }
+
+  // Makes API call to display map of park location
+  function displayMap() {
+	parkMap.setView([currentLat, currentLon], 13);
+
+	L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=' + mapBoxAPI, {
+    	attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+    	maxZoom: 18,
+    	id: 'mapbox/streets-v11',
+    	tileSize: 512,
+    	zoomOffset: -1,
+    	accessToken: mapBoxAPI
+	}).addTo(parkMap);
+
+	L.marker([currentLat, currentLon]).addTo(parkMap);
+  }
+
+// OnClick event for park info/carousel section
+function doClickedInfo(event) {
+	var index = 0; // figure out index of currently displayed park
+
+	loadParkWeatherAndMap(index);
+}
