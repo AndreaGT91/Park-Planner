@@ -1,14 +1,14 @@
 /* Custom Stylesheet */
 
-* {
+/* * {
   margin: 0;
   padding: 0;
-}
+} */
 
-.main-wrapper {
+/* .main-wrapper {
   width: 100%;
   position: relative;
-}
+} */
 
 /* .menu-holder 
   width: 80%;
@@ -16,37 +16,34 @@
   z-index: 9999;
 
 }   */
-#parkNameCard {
+/* #parkNameCard {
   height: 408.889px;
   overflow: auto;
 }
 
 #parkNameCard .card {
   background: rgb(255, 255, 255, .2)
-}
+} */
 
-#parksChooserDiv {
+/* #parksChooserDiv {
     margin-right: 50px;
-}
-
-#parksChooser {
-  background-color: black;
-  white-space: nowrap;
-}
+} */
 
 nav {
   background-color: darkolivegreen;
+  padding-left: 50px;
+  padding-right: 50px;
 }
 
-.slider-holder {
+/* .slider-holder {
   width: 100%;
   position: absolute;
   top: 0;
   z-index: -1;
 
 }
-
-.carousel-item {
+ */
+/* .carousel-item {
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -55,9 +52,9 @@ nav {
 
 .carousel.carousel-slider {
   height: 85vh !important;
-}
+} */
 
-.parkInfo {
+/* .parkInfo {
   font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
 
@@ -74,4 +71,4 @@ nav {
 #showLatitude {
   display: none;
 
-}
+} */
