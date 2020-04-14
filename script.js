@@ -29,7 +29,7 @@ $(document).ready(function () {
 
 	// Materialize animation code for front - end
 	M.AutoInit();
-	getCurrentWeather("cumming");
+	getFiveDayForecast(currentLat, currentLon);
 });
 
 // Retrieves park data from either localstorage or by making API call
@@ -140,16 +140,17 @@ function loadParkImages(parkIndex) {
 	}
 }
 
-function getCurrentWeather(location) {
-	var URL = `http://api.openweathermap.org/data/2.5/weather?q=${location}&APPID=fedf8af71a69ed785569f9a644c3f570`;
+// function getCurrentWeather(location) {
+// 	var URL = `http://api.openweathermap.org/data/2.5/weather?q=${location}&APPID=fedf8af71a69ed785569f9a644c3f570`;
 
-	$.getJSON(URL, function (data) {
-		getFiveDayForecast(location);
-	});
-}
+// 	$.getJSON(URL, function (data) {
+// 		getFiveDayForecast(location);
+// 	});
+// }
 
-function getFiveDayForecast(location) {
-	var URL = `https://api.openweathermap.org/data/2.5/forecast?q=${location}&appid=fedf8af71a69ed785569f9a644c3f570&units=imperial`;
+function getFiveDayForecast(lat, lon) {
+	// var URL = `https://api.openweathermap.org/data/2.5/forecast?q=${location}&appid=fedf8af71a69ed785569f9a644c3f570&units=imperial`;
+	var URL = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=fedf8af71a69ed785569f9a644c3f570&units=imperial`;
 
 	$.getJSON(URL, function (data) {
 		makeDailyForecast(data);
