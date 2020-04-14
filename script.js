@@ -1,11 +1,6 @@
 // National Park Service API
 const npsURL = "https://developer.nps.gov/api/v1/parks?stateCode=GA&api_key=BC3dYC7e66JYRo9zARWdKwuCsC4f3bFp93ViUP1Z";
 
-// OpenWeatherMAP API
-const openWeatherEndPoint = "https://api.openweathermap.org/data/2.5/forecast";
-const openWeatherAPIkey = "&APPID=eee981012b240ab34d1f9eee38b81916";
-var openWeatherURL = openWeatherEndPoint + "?lat=33.7490&lon=-84.3880" + openWeatherAPIkey; // initialize to Atlanta
-
 const mapBoxAPI = "pk.eyJ1IjoiYW5kcmVhZ3Q5MSIsImEiOiJjazh5d2E1ZjIxbWMzM2xxcWo3N3ZzY2RxIn0.Y7XvFoNwX0QmBjOWDGa6kw";
 
 const parkListName = "parkPlannerList";
@@ -97,6 +92,7 @@ function loadParkWeatherAndMap(index) {
 	currentLat = parkList[index].latitude;
 	currentLon = parkList[index].longitude;
 
+	$("#park-name").val(index);
 	$("#park-name").text(parkList[index].fullName);
 	$("#park-city").text("City: " + parkList[index].addresses[0].city);
 	$("#park-desc").text(parkList[index].description);
@@ -111,6 +107,7 @@ function loadParkWeatherAndMap(index) {
 
 	loadParkImages(index);
 	$("#park-weather-map").show();
+	getCurrentWeather(parkList[index].addresses[0].city);
 	displayMap();
 }
 
@@ -125,7 +122,7 @@ function loadParkImages(parkIndex) {
 
 	function loadOnePark(index) {
 		for (let i=0; i<parkList[index].images.length; i++) {
-			parkPics.push(parkList[index].images[i].url);
+			parkPics.push({url: parkList[index].images[i].url, alt: parkList[index].images[i].altText});
 		}
 	}
 
@@ -209,25 +206,26 @@ function getCurrentWeather(location) {
 	}
   }
 
-  // Makes API call to display map of park location
-  function displayMap() {
+// Makes API call to display map of park location
+function displayMap() {
 	parkMap.setView([currentLat, currentLon], 13);
 
 	L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=' + mapBoxAPI, {
-    	attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
-    	maxZoom: 18,
-    	id: 'mapbox/streets-v11',
-    	tileSize: 512,
-    	zoomOffset: -1,
-    	accessToken: mapBoxAPI
+		attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+		maxZoom: 18,
+		id: 'mapbox/streets-v11',
+		tileSize: 512,
+		zoomOffset: -1,
+		accessToken: mapBoxAPI
 	}).addTo(parkMap);
 
 	L.marker([currentLat, currentLon]).addTo(parkMap);
-  }
+}
 
 // OnClick event for park info/carousel section
 function doClickedInfo(event) {
-	var index = 0; // figure out index of currently displayed park
+	var index = $("#park-name").val();
+	// TODO: figure out index of currently displayed park
 
 	loadParkWeatherAndMap(index);
 }

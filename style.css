@@ -2,8 +2,8 @@
 
 nav {
   background-color: darkolivegreen;
-  padding-left: 50px;
-  padding-right: 50px;
+  padding-left: 5%;
+  padding-right: 5%;
 }
 
 h5 {
@@ -41,6 +41,11 @@ h5 {
 .park-footer {
   background-color: darkolivegreen;
   padding-top: 0;
+}
+
+.contact-info {
+  color: white;
+  font-weight: bold;
 }
 
 #parksChooserDiv {
