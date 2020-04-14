@@ -132,6 +132,7 @@ function loadParkWeatherAndMap(index) {
 
 // OnChange event for dropdown list
 function doParkPick(event) {
+	event.preventDefault();
 	var index = $(this).val();
 	loadParkWeatherAndMap(index);
 }
