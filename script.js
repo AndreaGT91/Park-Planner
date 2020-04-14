@@ -7,23 +7,23 @@ const mapBoxAPI = "pk.eyJ1IjoiYW5kcmVhZ3Q5MSIsImEiOiJjazh5d2E1ZjIxbWMzM2xxcWo3N3
 
 const parkListName = "parkPlannerList";
 var parkList = [];
-var parkPics = [];
 var parkMap; // Link to map object
 var currentLat = 33.749; // initialize to Atlanta
 var currentLon = -84.388;
 
 //----Shows and Hides forecast, Latitude and the Map divs.(you can always update the list) ------//
 $(document).ready(function () {
-	initializeParkData(); // retrieve list of parks and populate parkList and dropdown menu
-
-	$("#parksChooser").change(doParkPick); // onChange event for dropdown list
-	$(".park-info-box").click(doClickedInfo); // onClick event for park info/carousel
-	$("select").formSelect();
+	// Materialize animation code for front - end
+//	M.AutoInit();
 
 	parkMap = L.map("park-map");
 
-	// Materialize animation code for front - end
-	M.AutoInit();
+	initializeParkData(); // retrieve list of parks and populate parkList and dropdown menu
+
+	$("#parksChooser").change(doParkPick); // onChange event for dropdown list
+	$("select").formSelect();
+	$('.carousel').carousel();
+
 	getCurrentWeather("cumming");
 });
 
@@ -48,10 +48,10 @@ function initializeParkData() {
 			$("#parksChooser").append(parkHtml1 + i + parkHtml2 + parkList[i].fullName + parkHtml3);
 		}
 
-		loadParkImages(-1);
 		$("#loading").hide();
 		$("#parksChooserDiv").show();
 		$("#park-info").show();
+		loadParkWeatherAndMap(0);
 	} else {
 		// Make call to National Park Service to get a list of GA parks
 		$.ajax({
@@ -74,10 +74,10 @@ function initializeParkData() {
 				}
 
 				// Hide loading, show dropdown menu
-				loadParkImages(-1);
 				$("#loading").hide();
 				$("#parksChooserDiv").show();
 				$("#park-info").show();
+				loadParkWeatherAndMap(0);
 			})
 			.catch(function (error) {
 				// Hide loading
@@ -85,6 +85,23 @@ function initializeParkData() {
 				// TODO: use something other than alert
 				alert("Sorry, cannot retrieve park data. Try again later.");
 			});
+	}
+}
+
+// Load park images into array
+function loadParkImages(index) {
+	const html1 = '<a class="carousel-item"><img src="';
+	const html2 = '" alt="';
+	const html3 = '"></a>';
+
+	// Make sure index is valid
+	if ((index >= 0) && (index < parkList.length)) {
+		$("#pic-carousel").empty();
+
+		for (let i = 0; i < parkList[index].images.length; i++) {
+			$("#pic-carousel").append(html1 + parkList[index].images[i].url + html2 + 
+				parkList[index].images[i].altText + html3);
+		}
 	}
 }
 
@@ -117,24 +134,6 @@ function loadParkWeatherAndMap(index) {
 function doParkPick(event) {
 	var index = $(this).val();
 	loadParkWeatherAndMap(index);
-}
-
-// Load park images into array
-function loadParkImages(parkIndex) {
-	function loadOnePark(index) {
-		for (let i = 0; i < parkList[index].images.length; i++) {
-			parkPics.push({ url: parkList[index].images[i].url, alt: parkList[index].images[i].altText });
-		}
-	}
-
-	// If valid index, load images just for that park; else load all parks' images
-	if (parkIndex >= 0 && parkIndex < parkList.length) {
-		loadOnePark(parkIndex);
-	} else {
-		for (let i = 0; i < parkList.length; i++) {
-			loadOnePark(i);
-		}
-	}
 }
 
 function getCurrentWeather(location) {
@@ -224,12 +223,4 @@ function displayMap() {
 	}).addTo(parkMap);
 
 	L.marker([currentLat, currentLon]).addTo(parkMap);
-}
-
-// OnClick event for park info/carousel section
-function doClickedInfo(event) {
-	var index = $("#park-name").val();
-	// TODO: figure out index of currently displayed park
-
-	loadParkWeatherAndMap(index);
 }

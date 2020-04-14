@@ -15,14 +15,15 @@
   <!-- Import Leaflet css -->
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css"
     integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
-    crossorigin=""/>
-    <!-- Import Open Layers -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.3.1/css/ol.css" type="text/css">
+    crossorigin="" />
+  <!-- Import Open Layers -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.3.1/css/ol.css"
+    type="text/css">
   <link rel="stylesheet" href="./style.css">
 </head>
 
 <body class="back-color">
-  
+
   <nav class="" role="navigation">
     <div class="nav-wrapper navbar-fixed">
       <a href="#" class="brand-logo"> Park Planner </a>
@@ -73,25 +74,19 @@
 
       <!-- Carousel -->
       <div class="col m7 valign-wrapper" style="height: 550px;">
-        <!-- <img class="park-pictures" id="" 
-          src="https://www.nps.gov/common/uploads/structured_data/3C7D2FBB-1DD8-B71B-0BED99731011CFCE.jpg"
-          alt="park picture" /> -->
-          <div class="carousel carousel-slider row fullWidth back-color">
-            <a class="carousel-item" href="#one!"><img src="https://lorempixel.com/800/400/food/1"></a>
-            <a class="carousel-item" href="#two!"><img src="https://lorempixel.com/800/400/food/2"></a>
-            <a class="carousel-item" href="#three!"><img src="https://lorempixel.com/800/400/food/3"></a>
-            <a class="carousel-item" href="#four!"><img src="https://lorempixel.com/800/400/food/4"></a>
+        <div class="carousel carousel-slider row fullWidth back-color" id="pic-carousel">
+          <!-- List of images built in javascript -->
+        </div>
       </div>
-
     </div>
   </div>
 
-    <!-- The weather and map are hidden until user picks a park -->
-    <div id="park-weather-map" hidden>
+  <!-- The weather and map are hidden until user picks a park -->
+  <div id="park-weather-map" hidden>
     <!-- Weather forecast -->
     <hr class="line-break">
     <div>
-      <h5 class="white-text center">:Weather Forecast:</h5>
+      <h5 class="white-text ">Weather Forecast:</h5>
       <div id="forecastFiveDay" class="row">
 
         <div class="col m2">
@@ -114,7 +109,7 @@
     <!-- Display map to park -->
     <hr class="line-break">
     <div>
-      <h5 class="white-text center">:Map to Park:</h5>
+      <h5 class="white-text">Map to Park:</h5>
       <div class="row">
         <div class="col m12">
           <div class="map" id="park-map">
@@ -124,16 +119,17 @@
       </div>
     </div>
   </div>
-        
+
   <!-----------------  Footer Section ------------ -->
   <!-- <footer class="page-footer black darken-3"> -->
   <footer class="page-footer park-footer">
-      <div class="footer-copyright">
-        <div class="container center-align">Contact Us: <a class="contact-info" href="mailto:gaparkplanner@gmail.com">GAParkPlanner@gmail.com</a></div>
+    <div class="footer-copyright">
+      <div class="container center-align">Contact Us: <a class="contact-info"
+          href="mailto:gaparkplanner@gmail.com">GAParkPlanner@gmail.com</a></div>
     </div>
   </footer>
 
-          <!-- jQuery -->
+  <!-- jQuery -->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
   <!-- Moment -->
   <script src="https://momentjs.com/downloads/moment.js"></script>
