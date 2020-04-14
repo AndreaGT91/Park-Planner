@@ -1,3 +1,5 @@
+/** @format */
+
 // National Park Service API
 const npsURL = "https://developer.nps.gov/api/v1/parks?stateCode=GA&api_key=BC3dYC7e66JYRo9zARWdKwuCsC4f3bFp93ViUP1Z";
 
@@ -7,7 +9,7 @@ const parkListName = "parkPlannerList";
 var parkList = [];
 var parkPics = [];
 var parkMap; // Link to map object
-var currentLat = 33.7490; // initialize to Atlanta
+var currentLat = 33.749; // initialize to Atlanta
 var currentLon = -84.388;
 
 //----Shows and Hides forecast, Latitude and the Map divs.(you can always update the list) ------//
@@ -32,9 +34,9 @@ function initializeParkData() {
 	$("#parksChooserDiv").hide();
 	$("#park-info").hide();
 
-	const parkHtml1 = '<option value='
-	const parkHtml2 = '>';
-	const parkHtml3 = '</option>';
+	const parkHtml1 = "<option value=";
+	const parkHtml2 = ">";
+	const parkHtml3 = "</option>";
 
 	var lsParkList = JSON.parse(localStorage.getItem(parkListName));
 
@@ -119,45 +121,43 @@ function doParkPick(event) {
 
 // Load park images into array
 function loadParkImages(parkIndex) {
-
 	function loadOnePark(index) {
-		for (let i=0; i<parkList[index].images.length; i++) {
-			parkPics.push({url: parkList[index].images[i].url, alt: parkList[index].images[i].altText});
+		for (let i = 0; i < parkList[index].images.length; i++) {
+			parkPics.push({ url: parkList[index].images[i].url, alt: parkList[index].images[i].altText });
 		}
 	}
 
 	// If valid index, load images just for that park; else load all parks' images
-	if ((parkIndex >= 0) && (parkIndex < parkList.length)) {
+	if (parkIndex >= 0 && parkIndex < parkList.length) {
 		loadOnePark(parkIndex);
-	}
-	else {
-		for (let i=0; i<parkList.length; i++) {
+	} else {
+		for (let i = 0; i < parkList.length; i++) {
 			loadOnePark(i);
 		}
 	}
 }
 
 function getCurrentWeather(location) {
-  var URL = `http://api.openweathermap.org/data/2.5/weather?q=${location}&APPID=fedf8af71a69ed785569f9a644c3f570`
-
-  $.getJSON(URL, function (data) {
-			getFiveDayForecast(location)
-		});
-}
-
-  function getFiveDayForecast(location) {
-	var URL = `https://api.openweathermap.org/data/2.5/forecast?q=${location}&appid=fedf8af71a69ed785569f9a644c3f570&units=imperial`
+	var URL = `http://api.openweathermap.org/data/2.5/weather?q=${location}&APPID=fedf8af71a69ed785569f9a644c3f570`;
 
 	$.getJSON(URL, function (data) {
-			makeDailyForecast(data);
+		getFiveDayForecast(location);
 	});
-  }
+}
 
-  function makeCurrentForecast(time, data) {
-			$("#forecastFiveDay").append(`
+function getFiveDayForecast(location) {
+	var URL = `https://api.openweathermap.org/data/2.5/forecast?q=${location}&appid=fedf8af71a69ed785569f9a644c3f570&units=imperial`;
+
+	$.getJSON(URL, function (data) {
+		makeDailyForecast(data);
+	});
+}
+
+function makeCurrentForecast(time, data) {
+	$("#forecastFiveDay").append(`
 	  <div class="col m2">
 		<div class="col">
-		  <div class="card grey" style="width:200px; ">
+		  <div class="card park-weather" style="width:200px; ">
 			<div class="card-content white-text center" style="width: 200px;">
 			  <span class="card-title">${time}</span>
 			  <img src="http://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png"></img>
@@ -169,31 +169,34 @@ function getCurrentWeather(location) {
 		</div>
 	  </div>
 	`);
-  }
+}
 
-  function makeDailyForecast(data) {
+function makeDailyForecast(data) {
+	console.log(data);
+
 	var dailyData = "";
 	var makeTime = "";
 
 	var currentDayData = data.list[0];
 	// console.log(data.list)
 
-
 	$("#forecastFiveDay").empty();
 	for (var i = 6; i < 40; i += 8) {
-			dailyData = data.list[i];
-	  makeTime = dailyData.dt_txt.split(" ");
+		dailyData = data.list[i];
+		getUnix = dailyData.dt;
+		getUnix *= 1000;
+		makeTime = new Date(getUnix).toLocaleDateString();
 
-	  if (i === 6) {
+		if (i === 6) {
 			makeCurrentForecast("Today", currentDayData);
-	  }
+		}
 
-	  $("#forecastFiveDay").append(`
+		$("#forecastFiveDay").append(`
 		<div class="col m2">
 			<div class="col">
-				<div class="card grey">
+				<div class="card park-weather">
 					<div class="card-content white-text center" style="width: 200px;">
-						<span class="card-title">${makeTime[0]}</span>
+						<span class="card-title">${makeTime}</span>
 						<img src="http://openweathermap.org/img/wn/${dailyData.weather[0].icon}@2x.png"></img>
 						<p>Temp: ${dailyData.main.temp} °F</p>
 						<br>
@@ -202,21 +205,22 @@ function getCurrentWeather(location) {
 					</div>
 				</div>
 			</div>
-	  `)
+	  `);
 	}
-  }
+}
 
 // Makes API call to display map of park location
 function displayMap() {
 	parkMap.setView([currentLat, currentLon], 13);
 
-	L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=' + mapBoxAPI, {
-		attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+	L.tileLayer("https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=" + mapBoxAPI, {
+		attribution:
+			'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
 		maxZoom: 18,
-		id: 'mapbox/streets-v11',
+		id: "mapbox/streets-v11",
 		tileSize: 512,
 		zoomOffset: -1,
-		accessToken: mapBoxAPI
+		accessToken: mapBoxAPI,
 	}).addTo(parkMap);
 
 	L.marker([currentLat, currentLon]).addTo(parkMap);
