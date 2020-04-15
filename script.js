@@ -22,7 +22,7 @@ $(document).ready(function () {
 
 	$("#parksChooser").change(doParkPick); // onChange event for dropdown list
 	$("select").formSelect();
-	$('.carousel').carousel();
+	// $('.carousel').carousel();
 
 	getCurrentWeather("cumming");
 });
@@ -96,12 +96,13 @@ function loadParkImages(index) {
 
 	// Make sure index is valid
 	if ((index >= 0) && (index < parkList.length)) {
-		$("#pic-carousel").empty();
+		$("#park-pic").attr({src: parkList[index].images[0].url, alt:parkList[index].images[0].altTex});
+		// $("#pic-carousel").empty();
 
-		for (let i = 0; i < parkList[index].images.length; i++) {
-			$("#pic-carousel").append(html1 + parkList[index].images[i].url + html2 + 
-				parkList[index].images[i].altText + html3);
-		}
+		// for (let i = 0; i < parkList[index].images.length; i++) {
+		// 	$("#pic-carousel").append(html1 + parkList[index].images[i].url + html2 + 
+		// 		parkList[index].images[i].altText + html3);
+		// }
 	}
 }
 
