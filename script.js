@@ -3,29 +3,22 @@
 // National Park Service API
 const npsURL = "https://developer.nps.gov/api/v1/parks?stateCode=GA&api_key=BC3dYC7e66JYRo9zARWdKwuCsC4f3bFp93ViUP1Z";
 
-// OpenWeatherMAP API
-const openWeatherEndPoint = "https://api.openweathermap.org/data/2.5/forecast";
-const openWeatherAPIkey = "&APPID=eee981012b240ab34d1f9eee38b81916";
-var openWeatherURL = openWeatherEndPoint + "?lat=33.7490&lon=-84.3880" + openWeatherAPIkey; // initialize to Atlanta
-
 const mapBoxAPI = "pk.eyJ1IjoiYW5kcmVhZ3Q5MSIsImEiOiJjazh5d2E1ZjIxbWMzM2xxcWo3N3ZzY2RxIn0.Y7XvFoNwX0QmBjOWDGa6kw";
 
 const parkListName = "parkPlannerList";
 var parkList = [];
-var parkPics = [];
 var parkMap; // Link to map object
 var currentLat = 33.749; // initialize to Atlanta
 var currentLon = -84.388;
 
 //----Shows and Hides forecast, Latitude and the Map divs.(you can always update the list) ------//
 $(document).ready(function () {
+	parkMap = L.map("park-map");
+
 	initializeParkData(); // retrieve list of parks and populate parkList and dropdown menu
 
 	$("#parksChooser").change(doParkPick); // onChange event for dropdown list
-	$(".park-info-box").click(doClickedInfo); // onClick event for park info/carousel
-	$("select").formSelect();
-
-	parkMap = L.map("park-map");
+	// $('.carousel').carousel();
 
 	// Materialize animation code for front - end
 	M.AutoInit();
@@ -39,9 +32,20 @@ function initializeParkData() {
 	$("#parksChooserDiv").hide();
 	$("#park-info").hide();
 
-	const parkHtml1 = "<option value=";
-	const parkHtml2 = ">";
-	const parkHtml3 = "</option>";
+	// Make first item selected on page load
+	function addDropdownItems(index, name) {
+		const parkHtml1 = "<option value=";
+		const parkHtml2 = ">";
+		const parkHtml2alt = " selected>";
+		const parkHtml3 = "</option>";
+
+		if (index===0) {
+			$("#parksChooser").append(parkHtml1 + index + parkHtml2alt + name + parkHtml3);
+		}
+		else {
+			$("#parksChooser").append(parkHtml1 + index + parkHtml2 + name + parkHtml3);
+		}
+	}
 
 	var lsParkList = JSON.parse(localStorage.getItem(parkListName));
 
@@ -50,13 +54,13 @@ function initializeParkData() {
 		parkList = lsParkList;
 
 		for (let i = 0; i < parkList.length; i++) {
-			$("#parksChooser").append(parkHtml1 + i + parkHtml2 + parkList[i].fullName + parkHtml3);
+			addDropdownItems(i, parkList[i].fullName);
 		}
 
-		loadParkImages(-1);
 		$("#loading").hide();
 		$("#parksChooserDiv").show();
 		$("#park-info").show();
+		loadParkWeatherAndMap(0);
 	} else {
 		// Make call to National Park Service to get a list of GA parks
 		$.ajax({
@@ -70,7 +74,7 @@ function initializeParkData() {
 				response.data.forEach(function (item) {
 					if (item.states === "GA") {
 						newIndex = parkList.push(item) - 1; //push returns new length
-						$("#parksChooser").append(parkHtml1 + newIndex + parkHtml2 + item.fullName + parkHtml3);
+						addDropdownItems(newIndex, item.fullName);
 					}
 				});
 
@@ -79,10 +83,10 @@ function initializeParkData() {
 				}
 
 				// Hide loading, show dropdown menu
-				loadParkImages(-1);
 				$("#loading").hide();
 				$("#parksChooserDiv").show();
 				$("#park-info").show();
+				loadParkWeatherAndMap(0);
 			})
 			.catch(function (error) {
 				// Hide loading
@@ -93,12 +97,38 @@ function initializeParkData() {
 	}
 }
 
+// Load park images into array
+function loadParkImages(index) {
+	const html1 = '<a class="carousel-item"><img src="';
+	const html2 = '" alt="';
+	const html3 = '"></a>';
+
+	// Make sure index is valid
+	if ((index >= 0) && (index < parkList.length)) {
+		// Make sure images were provided for selected park
+		if (parkList[index].images.length>0) {
+			$("#park-pic").attr({src: parkList[index].images[0].url, alt:parkList[index].images[0].altText});
+		}
+		else {
+			$("#park-pic").attr({src:"", alt:""});
+			// TODO: display message that no images available?
+		}
+		// $("#pic-carousel").empty();
+
+		// for (let i = 0; i < parkList[index].images.length; i++) {
+		// 	$("#pic-carousel").append(html1 + parkList[index].images[i].url + html2 + 
+		// 		parkList[index].images[i].altText + html3);
+		// }
+	}
+}
+
 function loadParkWeatherAndMap(index) {
 	var parkHours = parkList[index].operatingHours[0].standardHours;
 
 	currentLat = parkList[index].latitude;
 	currentLon = parkList[index].longitude;
 
+	$("#park-name").val(index);
 	$("#park-name").text(parkList[index].fullName);
 	$("#park-city").text("City: " + parkList[index].addresses[0].city);
 	$("#park-desc").text(parkList[index].description);
@@ -113,43 +143,18 @@ function loadParkWeatherAndMap(index) {
 
 	loadParkImages(index);
 	$("#park-weather-map").show();
+	getFiveDayForecast(currentLat, currentLon);
 	displayMap();
 }
 
 // OnChange event for dropdown list
 function doParkPick(event) {
+	event.preventDefault();
 	var index = $(this).val();
 	loadParkWeatherAndMap(index);
 }
 
-// Load park images into array
-function loadParkImages(parkIndex) {
-	function loadOnePark(index) {
-		for (let i = 0; i < parkList[index].images.length; i++) {
-			parkPics.push({ url: parkList[index].images[i].url, alt: parkList[index].images[i].altText });
-		}
-	}
-
-	// If valid index, load images just for that park; else load all parks' images
-	if (parkIndex >= 0 && parkIndex < parkList.length) {
-		loadOnePark(parkIndex);
-	} else {
-		for (let i = 0; i < parkList.length; i++) {
-			loadOnePark(i);
-		}
-	}
-}
-
-// function getCurrentWeather(location) {
-// 	var URL = `http://api.openweathermap.org/data/2.5/weather?q=${location}&APPID=fedf8af71a69ed785569f9a644c3f570`;
-
-// 	$.getJSON(URL, function (data) {
-// 		getFiveDayForecast(location);
-// 	});
-// }
-
 function getFiveDayForecast(lat, lon) {
-	// var URL = `https://api.openweathermap.org/data/2.5/forecast?q=${location}&appid=fedf8af71a69ed785569f9a644c3f570&units=imperial`;
 	var URL = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=fedf8af71a69ed785569f9a644c3f570&units=imperial`;
 
 	$.getJSON(URL, function (data) {
@@ -176,13 +181,10 @@ function makeCurrentForecast(time, data) {
 }
 
 function makeDailyForecast(data) {
-	console.log(data);
-
 	var dailyData = "";
 	var makeTime = "";
 
 	var currentDayData = data.list[0];
-	// console.log(data.list)
 
 	$("#forecastFiveDay").empty();
 	for (var i = 6; i < 40; i += 8) {
@@ -228,11 +230,4 @@ function displayMap() {
 	}).addTo(parkMap);
 
 	L.marker([currentLat, currentLon]).addTo(parkMap);
-}
-
-// OnClick event for park info/carousel section
-function doClickedInfo(event) {
-	var index = 0; // figure out index of currently displayed park
-
-	loadParkWeatherAndMap(index);
 }
