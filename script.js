@@ -13,18 +13,17 @@ var currentLon = -84.388;
 
 //----Shows and Hides forecast, Latitude and the Map divs.(you can always update the list) ------//
 $(document).ready(function () {
-	// Materialize animation code for front - end
-//	M.AutoInit();
-
 	parkMap = L.map("park-map");
 
 	initializeParkData(); // retrieve list of parks and populate parkList and dropdown menu
 
 	$("#parksChooser").change(doParkPick); // onChange event for dropdown list
-	$("select").formSelect();
+	// $("select").formSelect();
 	$('.carousel').carousel();
 
-	getCurrentWeather("cumming");
+	// Materialize animation code for front - end
+	M.AutoInit();
+	getFiveDayForecast(currentLat, currentLon);
 });
 
 // Retrieves park data from either localstorage or by making API call
@@ -99,7 +98,7 @@ function loadParkImages(index) {
 		$("#pic-carousel").empty();
 
 		for (let i = 0; i < parkList[index].images.length; i++) {
-			$("#pic-carousel").append(html1 + parkList[index].images[i].url + html2 + 
+		$("#pic-carousel").append(html1 + parkList[index].images[i].url + html2 + 
 				parkList[index].images[i].altText + html3);
 		}
 	}
@@ -126,7 +125,7 @@ function loadParkWeatherAndMap(index) {
 
 	loadParkImages(index);
 	$("#park-weather-map").show();
-	getCurrentWeather(parkList[index].addresses[0].city);
+	getFiveDayForecast(currentLat, currentLon);
 	displayMap();
 }
 
@@ -137,16 +136,8 @@ function doParkPick(event) {
 	loadParkWeatherAndMap(index);
 }
 
-function getCurrentWeather(location) {
-	var URL = `http://api.openweathermap.org/data/2.5/weather?q=${location}&APPID=fedf8af71a69ed785569f9a644c3f570`;
-
-	$.getJSON(URL, function (data) {
-		getFiveDayForecast(location);
-	});
-}
-
-function getFiveDayForecast(location) {
-	var URL = `https://api.openweathermap.org/data/2.5/forecast?q=${location}&appid=fedf8af71a69ed785569f9a644c3f570&units=imperial`;
+function getFiveDayForecast(lat, lon) {
+	var URL = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=fedf8af71a69ed785569f9a644c3f570&units=imperial`;
 
 	$.getJSON(URL, function (data) {
 		makeDailyForecast(data);
@@ -172,13 +163,10 @@ function makeCurrentForecast(time, data) {
 }
 
 function makeDailyForecast(data) {
-	console.log(data);
-
 	var dailyData = "";
 	var makeTime = "";
 
 	var currentDayData = data.list[0];
-	// console.log(data.list)
 
 	$("#forecastFiveDay").empty();
 	for (var i = 6; i < 40; i += 8) {
