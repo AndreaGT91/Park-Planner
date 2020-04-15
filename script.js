@@ -105,11 +105,13 @@ function loadParkImages(index) {
 
 	// Make sure index is valid
 	if ((index >= 0) && (index < parkList.length)) {
+		// Make sure images were provided for selected park
 		if (parkList[index].images.length>0) {
-			$("#park-pic").attr({src: parkList[index].images[0].url, alt:parkList[index].images[0].altTex});
+			$("#park-pic").attr({src: parkList[index].images[0].url, alt:parkList[index].images[0].altText});
 		}
 		else {
-			// TODO: clear current picture; display message that no images available?
+			$("#park-pic").attr({src:"", alt:""});
+			// TODO: display message that no images available?
 		}
 		// $("#pic-carousel").empty();
 
