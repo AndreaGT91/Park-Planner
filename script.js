@@ -13,18 +13,16 @@ var currentLon = -84.388;
 
 //----Shows and Hides forecast, Latitude and the Map divs.(you can always update the list) ------//
 $(document).ready(function () {
-	// Materialize animation code for front - end
-//	M.AutoInit();
-
 	parkMap = L.map("park-map");
 
 	initializeParkData(); // retrieve list of parks and populate parkList and dropdown menu
 
 	$("#parksChooser").change(doParkPick); // onChange event for dropdown list
-	$("select").formSelect();
 	// $('.carousel').carousel();
 
-	getCurrentWeather("cumming");
+	// Materialize animation code for front - end
+	M.AutoInit();
+	getFiveDayForecast(currentLat, currentLon);
 });
 
 // Retrieves park data from either localstorage or by making API call
@@ -34,9 +32,20 @@ function initializeParkData() {
 	$("#parksChooserDiv").hide();
 	$("#park-info").hide();
 
-	const parkHtml1 = "<option value=";
-	const parkHtml2 = ">";
-	const parkHtml3 = "</option>";
+	// Make first item selected on page load
+	function addDropdownItems(index, name) {
+		const parkHtml1 = "<option value=";
+		const parkHtml2 = ">";
+		const parkHtml2alt = " selected>";
+		const parkHtml3 = "</option>";
+
+		if (index===0) {
+			$("#parksChooser").append(parkHtml1 + index + parkHtml2alt + name + parkHtml3);
+		}
+		else {
+			$("#parksChooser").append(parkHtml1 + index + parkHtml2 + name + parkHtml3);
+		}
+	}
 
 	var lsParkList = JSON.parse(localStorage.getItem(parkListName));
 
@@ -45,7 +54,7 @@ function initializeParkData() {
 		parkList = lsParkList;
 
 		for (let i = 0; i < parkList.length; i++) {
-			$("#parksChooser").append(parkHtml1 + i + parkHtml2 + parkList[i].fullName + parkHtml3);
+			addDropdownItems(i, parkList[i].fullName);
 		}
 
 		$("#loading").hide();
@@ -65,7 +74,7 @@ function initializeParkData() {
 				response.data.forEach(function (item) {
 					if (item.states === "GA") {
 						newIndex = parkList.push(item) - 1; //push returns new length
-						$("#parksChooser").append(parkHtml1 + newIndex + parkHtml2 + item.fullName + parkHtml3);
+						addDropdownItems(newIndex, item.fullName);
 					}
 				});
 
@@ -127,7 +136,7 @@ function loadParkWeatherAndMap(index) {
 
 	loadParkImages(index);
 	$("#park-weather-map").show();
-	getCurrentWeather(parkList[index].addresses[0].city);
+	getFiveDayForecast(currentLat, currentLon);
 	displayMap();
 }
 
@@ -138,16 +147,8 @@ function doParkPick(event) {
 	loadParkWeatherAndMap(index);
 }
 
-function getCurrentWeather(location) {
-	var URL = `http://api.openweathermap.org/data/2.5/weather?q=${location}&APPID=fedf8af71a69ed785569f9a644c3f570`;
-
-	$.getJSON(URL, function (data) {
-		getFiveDayForecast(location);
-	});
-}
-
-function getFiveDayForecast(location) {
-	var URL = `https://api.openweathermap.org/data/2.5/forecast?q=${location}&appid=fedf8af71a69ed785569f9a644c3f570&units=imperial`;
+function getFiveDayForecast(lat, lon) {
+	var URL = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=fedf8af71a69ed785569f9a644c3f570&units=imperial`;
 
 	$.getJSON(URL, function (data) {
 		makeDailyForecast(data);
@@ -173,13 +174,10 @@ function makeCurrentForecast(time, data) {
 }
 
 function makeDailyForecast(data) {
-	console.log(data);
-
 	var dailyData = "";
 	var makeTime = "";
 
 	var currentDayData = data.list[0];
-	// console.log(data.list)
 
 	$("#forecastFiveDay").empty();
 	for (var i = 6; i < 40; i += 8) {

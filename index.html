@@ -29,7 +29,7 @@
       <a href="#" class="brand-logo"> Park Planner </a>
       <div class="input-field right" id="parksChooserDiv">
         <select id="parksChooser">
-          <option value="" disabled selected>Pick a park:</option>
+          <option value="" disabled>Pick a park:</option>
           <!-- dropdown list built in javascript -->
         </select>
       </div>
@@ -90,10 +90,9 @@
     <hr class="line-break">
     <div>
       <h5 class="white-text ">Weather Forecast:</h5>
-      <div id="forecastFiveDay" class="row">
+      <div id="forecastFiveDay" class="row center">
 
         <div class="col m2">
-          <div class="col">
             <div class="card">
               <div class="card-content white-text center park-weather">
                 <span class="card-title">2020-04-15</span>
@@ -124,7 +123,6 @@
   </div>
 
   <!-----------------  Footer Section ------------ -->
-  <!-- <footer class="page-footer black darken-3"> -->
   <footer class="page-footer park-footer">
     <div class="footer-copyright">
       <div class="container center-align">Contact Us: <a class="contact-info"
@@ -144,8 +142,11 @@
     crossorigin=""></script>
   <!-- Open Layer -->
   <script src="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.3.1/build/ol.js"></script>
+  <!-- This prevents passive event violation -->
+  <script type="text/javascript" src="https://unpkg.com/default-passive-events"></script>
   <!-- Park Planner -->
   <script src="script.js"></script>
 </body>
+
 
 </html>
