@@ -101,19 +101,22 @@ function initializeParkData() {
 
 // Load park images into array
 function loadParkImages(index) {
-	const html1 = '<a class="carousel-item"><img src="';
+	const html1 = '<a class="carousel-item" style="width:90%"><img src="';
 	const html2 = '" alt="';
 	const html3 = '"></a>';
 
 	// Make sure index is valid
 	if ((index >= 0) && (index < parkList.length)) {
 		$("#pic-carousel").empty(); // empty previous park's images from carousel
+		var park = parkList[index];
 
 		// Make sure images were provided for selected park
 		if (parkList[index].images.length>0) {
+			var newHtml;
 			for (let i = 0; i < parkList[index].images.length; i++) {
-				$("#pic-carousel").append(html1 + parkList[index].images[i].url + html2 + 
-					parkList[index].images[i].altText + html3);
+				console.log( index + " " + i);
+				newHtml = html1 + park.images[i].url + html2 + park.images[i].altText + html3
+				$("#pic-carousel").append(newHtml);
 			}		
 		}
 		else {
