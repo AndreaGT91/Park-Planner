@@ -4,13 +4,10 @@
 <head>
   <meta charset="UTF-8" />
   <!--Let browser know website is optimized for mobile-->
-  <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0" /> -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 
   <title>GA Park Planner</title>
 
-  <!--Import Google Icon Font-->
-  <!-- <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"> -->
   <!--Import materialize.css-->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
   <!-- Import Leaflet css -->
@@ -61,7 +58,6 @@
     </nav>
   </div>
 
-
   <!-- Left info box and right carousel -->
   <div class="park-info-box">
     <div class="row">
@@ -99,13 +95,10 @@
       </div>
 
       <!-- Carousel -->
-      <!-- <div class="col m7 valign-wrapper" style="height: 550px;"> -->
-      <!-- <div class="carousel carousel-slider row fullWidth back-color" id="pic-carousel"> -->
-      <!-- List of images built in javascript -->
-      <!-- </div> -->
-      <!-- </div> -->
-      <div class="col m7">
-        <img src="" width="100%" alt="" id="park-pic">
+      <div class="col m7 valign-wrapper" style="margin-top:15px">
+        <div class="carousel back-color" id="pic-carousel">
+            <!-- List of images built in javascript -->
+        </div>
       </div>
     </div>
   </div>
@@ -115,7 +108,7 @@
     <!-- Weather forecast -->
     <hr class="line-break">
     <div>
-      <h5 class="white-text center">Weather Forecast:</h5>
+      <h5 class="white-text center">Weather Forecast</h5>
       <div id="forecastFiveDay" class="row">
         <div class="">
         <div class="col m2" >
@@ -137,7 +130,7 @@
     <!-- Display map to park -->
     <hr class="line-break">
     <div>
-      <h5 class="white-text center">Map to Park:</h5>
+      <h5 class="white-text center">Map to Park</h5>
       <div class="row">
         <div class="col m12 s12">
           <div class="map" id="park-map">
@@ -166,8 +159,8 @@
     crossorigin=""></script>
   <!-- Open Layer -->
   <script src="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.3.1/build/ol.js"></script>
-  <!-- This prevents passive event violation -->
-  <script type="text/javascript" src="https://unpkg.com/default-passive-events"></script>
+  <!-- This prevents passive event violation, but causes error in materialize -->
+  <!-- <script type="text/javascript" src="https://unpkg.com/default-passive-events"></script> -->
   <!-- Park Planner -->
   <script src="script.js"></script>
 </body>

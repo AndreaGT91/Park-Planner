@@ -20,8 +20,6 @@ $(document).ready(function () {
 	$("#parksChooser").change(doParkPick); // onChange event for dropdown list
 	$("#parksChooser2").change(doParkPick); // onChange event for dropdown list
 
-	// $('.carousel').carousel();
-
 	// Materialize animation code for front - end
 	M.AutoInit();
 	getFiveDayForecast(currentLat, currentLon);
@@ -90,6 +88,7 @@ function initializeParkData() {
 				$("#parksChooserDiv").show();
 				$("#park-info").show();
 				loadParkWeatherAndMap(0);
+				window.location.reload(); // refresh page to get dropdown to display properly
 			})
 			.catch(function (error) {
 				// Hide loading
@@ -102,25 +101,25 @@ function initializeParkData() {
 
 // Load park images into array
 function loadParkImages(index) {
-	const html1 = '<a class="carousel-item"><img src="';
+	const html1 = '<a class="carousel-item" style="width:90%; height:100%"><img src="';
 	const html2 = '" alt="';
 	const html3 = '"></a>';
 
 	// Make sure index is valid
-	if (index >= 0 && index < parkList.length) {
-		// Make sure images were provided for selected park
-		if (parkList[index].images.length > 0) {
-			$("#park-pic").attr({ src: parkList[index].images[0].url, alt: parkList[index].images[0].altText });
-		} else {
-			$("#park-pic").attr({ src: "", alt: "" });
-			// TODO: display message that no images available?
-		}
-		// $("#pic-carousel").empty();
+	if ((index >= 0) && (index < parkList.length)) {
+		$("#pic-carousel").empty(); // empty previous park's images from carousel
 
-		// for (let i = 0; i < parkList[index].images.length; i++) {
-		// 	$("#pic-carousel").append(html1 + parkList[index].images[i].url + html2 +
-		// 		parkList[index].images[i].altText + html3);
-		// }
+		// Make sure images were provided for selected park
+		if (parkList[index].images.length>0) {
+			for (let i = 0; i < parkList[index].images.length; i++) {
+				$("#pic-carousel").append(html1 + parkList[index].images[i].url + html2 + 
+					parkList[index].images[i].altText + html3);
+			}		
+			$('.carousel').carousel();
+		}
+		else {
+			$("#pic-carousel").append("<br><br><br><br><br><br><br><br><br><br><h5 class='center-align'>No images available</h5>");
+		}
 	}
 }
 
