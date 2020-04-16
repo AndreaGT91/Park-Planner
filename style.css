@@ -72,11 +72,9 @@ h5 {
 
 #desktop-site {
 	display: block;
-	width: 100%;
 }
 #mobile-site {
 	display: none;
-	width: 100%;
 }
 
 @media screen and (max-width: 450) {
@@ -85,6 +83,5 @@ h5 {
 	}
 	#mobile-site {
 		display: block;
-		width: 100%;
 	}
 }
