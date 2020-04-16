@@ -54,10 +54,34 @@ h5 {
 }
 
 .contact-info {
-  color: white;
-  font-weight: bold;
+	color: white;
+	font-weight: bold;
 }
 
 #parksChooserDiv {
-	width: 400px;
+	width: 300px;
+}
+
+/* #desktop-site {
+}
+
+#mobile-site {
+	width: 300px;
+	margin: center;
+} */
+
+#desktop-site {
+	display: block;
+}
+#mobile-site {
+	display: none;
+}
+
+@media screen and (max-width: 450) {
+	#desktop-site {
+		display: none;
+	}
+	#mobile-site {
+		display: block;
+	}
 }

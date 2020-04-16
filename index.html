@@ -4,7 +4,8 @@
 <head>
   <meta charset="UTF-8" />
   <!--Let browser know website is optimized for mobile-->
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0" /> -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 
   <title>GA Park Planner</title>
 
@@ -24,17 +25,42 @@
 
 <body class="back-color">
 
-  <nav class="" role="navigation">
-    <div class="nav-wrapper navbar-fixed">
-      <a href="#" class="brand-logo"> Park Planner </a>
-      <div class="input-field right" id="parksChooserDiv">
-        <select id="parksChooser">
-          <option value="" disabled>Pick a park:</option>
-          <!-- dropdown list built in javascript -->
-        </select>
+  <div class="hide-on-small-only">
+    <nav class="m12" role="navigation">
+      <div class="nav-wrapper navbar-fixed">
+        <a href="#" class="brand-logo"> Park Planner </a>
+        <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons"></i></a>
+        <div class="input-field right" id="parksChooserDiv">
+          <select id="parksChooser">
+            <option value="" disabled>Pick a park:</option>
+            <!-- dropdown list built in javascript -->
+          </select>
+        </div>
       </div>
-    </div>
-  </nav>
+    </nav>
+  </div>
+
+  <div class="hide-on-med-and-up">
+    <nav class="s12 " role="navigation">
+      <div class="nav-wrapper navbar-fixed">
+        <a href="#" class="brand-logo"> Park Planner </a>
+        <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons"></i></a>
+      </div>
+        
+      <nav class="s12" role="navigation" style="margin-top: 10px;">
+        <div class="nav-wrapper navbar-fixed">
+          <div class="input-field right" id="parksChooserDiv">
+            <select id="parksChooser2">
+              <option value="" disabled>Pick a park:</option>
+              <!-- dropdown list built in javascript -->
+            </select>
+          </div>
+        </div>
+      </nav>
+
+    </nav>
+  </div>
+
 
   <!-- Left info box and right carousel -->
   <div class="park-info-box">
@@ -79,7 +105,7 @@
       <!-- </div> -->
       <!-- </div> -->
       <div class="col m7">
-        <img src="" width="100%" height="600px" alt="" id="park-pic">
+        <img src="" width="100%" alt="" id="park-pic">
       </div>
     </div>
   </div>
@@ -89,11 +115,11 @@
     <!-- Weather forecast -->
     <hr class="line-break">
     <div>
-      <h5 class="white-text">Weather Forecast:</h5>
-      <div id="forecastFiveDay" class="row center">
-
-        <div class="col m2">
-          <div class="card">
+      <h5 class="white-text center">Weather Forecast:</h5>
+      <div id="forecastFiveDay" class="row">
+        <div class="">
+        <div class="col m2" >
+          <div class="card" >
             <div class="card-content white-text center park-weather">
               <span class="card-title">2020-04-15</span>
               <img src="http://openweathermap.org/img/wn/03d@2x.png">
@@ -104,15 +130,16 @@
           </div>
         </div>
       </div>
+      </div>
 
     </div>
   
     <!-- Display map to park -->
     <hr class="line-break">
     <div>
-      <h5 class="white-text">Map to Park:</h5>
+      <h5 class="white-text center">Map to Park:</h5>
       <div class="row">
-        <div class="col m12">
+        <div class="col m12 s12">
           <div class="map" id="park-map">
             <!-- map goes here -->
           </div>

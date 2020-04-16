@@ -18,6 +18,8 @@ $(document).ready(function () {
 	initializeParkData(); // retrieve list of parks and populate parkList and dropdown menu
 
 	$("#parksChooser").change(doParkPick); // onChange event for dropdown list
+	$("#parksChooser2").change(doParkPick); // onChange event for dropdown list
+
 	// $('.carousel').carousel();
 
 	// Materialize animation code for front - end
@@ -39,11 +41,12 @@ function initializeParkData() {
 		const parkHtml2alt = " selected>";
 		const parkHtml3 = "</option>";
 
-		if (index===0) {
+		if (index === 0) {
 			$("#parksChooser").append(parkHtml1 + index + parkHtml2alt + name + parkHtml3);
-		}
-		else {
+			$("#parksChooser2").append(parkHtml1 + index + parkHtml2alt + name + parkHtml3);
+		} else {
 			$("#parksChooser").append(parkHtml1 + index + parkHtml2 + name + parkHtml3);
+			$("#parksChooser2").append(parkHtml1 + index + parkHtml2 + name + parkHtml3);
 		}
 	}
 
@@ -104,19 +107,18 @@ function loadParkImages(index) {
 	const html3 = '"></a>';
 
 	// Make sure index is valid
-	if ((index >= 0) && (index < parkList.length)) {
+	if (index >= 0 && index < parkList.length) {
 		// Make sure images were provided for selected park
-		if (parkList[index].images.length>0) {
-			$("#park-pic").attr({src: parkList[index].images[0].url, alt:parkList[index].images[0].altText});
-		}
-		else {
-			$("#park-pic").attr({src:"", alt:""});
+		if (parkList[index].images.length > 0) {
+			$("#park-pic").attr({ src: parkList[index].images[0].url, alt: parkList[index].images[0].altText });
+		} else {
+			$("#park-pic").attr({ src: "", alt: "" });
 			// TODO: display message that no images available?
 		}
 		// $("#pic-carousel").empty();
 
 		// for (let i = 0; i < parkList[index].images.length; i++) {
-		// 	$("#pic-carousel").append(html1 + parkList[index].images[i].url + html2 + 
+		// 	$("#pic-carousel").append(html1 + parkList[index].images[i].url + html2 +
 		// 		parkList[index].images[i].altText + html3);
 		// }
 	}
@@ -164,7 +166,7 @@ function getFiveDayForecast(lat, lon) {
 
 function makeCurrentForecast(time, data) {
 	$("#forecastFiveDay").append(`
-	  <div class="col m2">
+	  <div class="col m2 offset-s2">
 		<div class="col">
 		  <div class="card park-weather" style="width:200px; ">
 			<div class="card-content white-text center" style="width: 200px;">
@@ -198,7 +200,7 @@ function makeDailyForecast(data) {
 		}
 
 		$("#forecastFiveDay").append(`
-		<div class="col m2">
+		<div class="col m2 offset-s2">
 			<div class="col">
 				<div class="card park-weather">
 					<div class="card-content white-text center" style="width: 200px;">
