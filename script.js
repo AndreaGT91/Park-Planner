@@ -21,8 +21,6 @@ $(document).ready(function () {
 
 	// Materialize animation code for front - end
 	M.AutoInit();
-	// $('.carousel').carousel({numVisible: 3});
-	// $('select').formSelect();
 	getFiveDayForecast(currentLat, currentLon);
 });
 
@@ -108,19 +106,18 @@ function loadParkImages(index) {
 	// Make sure index is valid
 	if ((index >= 0) && (index < parkList.length)) {
 		$("#pic-carousel").empty(); // empty previous park's images from carousel
-		var park = parkList[index];
 
 		// Make sure images were provided for selected park
 		if (parkList[index].images.length>0) {
-			var newHtml;
 			for (let i = 0; i < parkList[index].images.length; i++) {
-				console.log( index + " " + i);
-				newHtml = html1 + park.images[i].url + html2 + park.images[i].altText + html3
-				$("#pic-carousel").append(newHtml);
+				$("#pic-carousel").append(html1 + parkList[index].images[i].url + html2 + 
+					parkList[index].images[i].altText + html3);
 			}		
+			$('.carousel').carousel();
 		}
 		else {
 			// TODO: display message that no images available?
+			$("#pic-carousel").append("<h5 style='text-align:center'>No images available</h5>");
 		}
 	}
 }
