@@ -18,10 +18,11 @@ $(document).ready(function () {
 	initializeParkData(); // retrieve list of parks and populate parkList and dropdown menu
 
 	$("#parksChooser").change(doParkPick); // onChange event for dropdown list
-	// $('.carousel').carousel();
 
 	// Materialize animation code for front - end
 	M.AutoInit();
+	// $('.carousel').carousel({numVisible: 3});
+	// $('select').formSelect();
 	getFiveDayForecast(currentLat, currentLon);
 });
 
@@ -87,6 +88,7 @@ function initializeParkData() {
 				$("#parksChooserDiv").show();
 				$("#park-info").show();
 				loadParkWeatherAndMap(0);
+				window.location.reload(); // refresh page to get dropdown to display properly
 			})
 			.catch(function (error) {
 				// Hide loading
@@ -105,20 +107,18 @@ function loadParkImages(index) {
 
 	// Make sure index is valid
 	if ((index >= 0) && (index < parkList.length)) {
+		$("#pic-carousel").empty(); // empty previous park's images from carousel
+
 		// Make sure images were provided for selected park
 		if (parkList[index].images.length>0) {
-			$("#park-pic").attr({src: parkList[index].images[0].url, alt:parkList[index].images[0].altText});
+			for (let i = 0; i < parkList[index].images.length; i++) {
+				$("#pic-carousel").append(html1 + parkList[index].images[i].url + html2 + 
+					parkList[index].images[i].altText + html3);
+			}		
 		}
 		else {
-			$("#park-pic").attr({src:"", alt:""});
 			// TODO: display message that no images available?
 		}
-		// $("#pic-carousel").empty();
-
-		// for (let i = 0; i < parkList[index].images.length; i++) {
-		// 	$("#pic-carousel").append(html1 + parkList[index].images[i].url + html2 + 
-		// 		parkList[index].images[i].altText + html3);
-		// }
 	}
 }
 
@@ -231,3 +231,43 @@ function displayMap() {
 
 	L.marker([currentLat, currentLon]).addTo(parkMap);
 }
+
+// jquery.min.js:2 Uncaught TypeError: Cannot read property 'clientWidth' of undefined
+//     at g.y.<computed> [as innerWidth] (materialize.min.js:6)
+//     at new i (materialize.min.js:6)
+//     at Function.value (materialize.min.js:6)
+//     at Function.value (materialize.min.js:6)
+//     at Object.M.AutoInit (materialize.min.js:6)
+//     at HTMLDocument.<anonymous> (script.js:24)
+//     at e (jquery.min.js:2)
+//     at t (jquery.min.js:2)
+// y.<computed> @ materialize.min.js:6
+// i @ materialize.min.js:6
+// value @ materialize.min.js:6
+// value @ materialize.min.js:6
+// M.AutoInit @ materialize.min.js:6
+// (anonymous) @ script.js:24
+// e @ jquery.min.js:2
+// t @ jquery.min.js:2
+// setTimeout (async)
+// k.readyException @ jquery.min.js:2
+// (anonymous) @ jquery.min.js:2
+// e @ jquery.min.js:2
+// t @ jquery.min.js:2
+// setTimeout (async)
+// (anonymous) @ jquery.min.js:2
+// c @ jquery.min.js:2
+// fireWith @ jquery.min.js:2
+// fire @ jquery.min.js:2
+// c @ jquery.min.js:2
+// fireWith @ jquery.min.js:2
+// t @ jquery.min.js:2
+// setTimeout (async)
+// (anonymous) @ jquery.min.js:2
+// c @ jquery.min.js:2
+// fireWith @ jquery.min.js:2
+// fire @ jquery.min.js:2
+// c @ jquery.min.js:2
+// fireWith @ jquery.min.js:2
+// ready @ jquery.min.js:2
+// B @ jquery.min.js:2

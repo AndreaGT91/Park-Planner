@@ -73,13 +73,11 @@
       </div>
 
       <!-- Carousel -->
-      <!-- <div class="col m7 valign-wrapper" style="height: 550px;"> -->
-      <!-- <div class="carousel carousel-slider row fullWidth back-color" id="pic-carousel"> -->
-      <!-- List of images built in javascript -->
-      <!-- </div> -->
-      <!-- </div> -->
-      <div class="col m7">
-        <img src="" width="100%" height="600px" alt="" id="park-pic">
+      <div class="col m7 valign-wrapper">
+        <!-- <div class="carousel carousel-slider fullWidth indicators back-color" id="pic-carousel"> -->
+        <div class="carousel back-color" id="pic-carousel">
+            <!-- List of images built in javascript -->
+        </div>
       </div>
     </div>
   </div>
@@ -139,8 +137,8 @@
     crossorigin=""></script>
   <!-- Open Layer -->
   <script src="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.3.1/build/ol.js"></script>
-  <!-- This prevents passive event violation -->
-  <script type="text/javascript" src="https://unpkg.com/default-passive-events"></script>
+  <!-- This prevents passive event violation, but causes error in materialize -->
+  <!-- <script type="text/javascript" src="https://unpkg.com/default-passive-events"></script> -->
   <!-- Park Planner -->
   <script src="script.js"></script>
 </body>
