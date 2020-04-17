@@ -13,16 +13,20 @@ var currentLon = -84.388;
 
 //----Shows and Hides forecast, Latitude and the Map divs.(you can always update the list) ------//
 $(document).ready(function () {
+	// Initialize Leaflet map
 	parkMap = L.map("park-map");
 
 	initializeParkData(); // retrieve list of parks and populate parkList and dropdown menu
+	getFiveDayForecast(currentLat, currentLon);
 
 	$("#parksChooser").change(doParkPick); // onChange event for dropdown list
 	$("#parksChooser2").change(doParkPick); // onChange event for dropdown list
 
 	// Materialize animation code for front - end
-	M.AutoInit();
-	getFiveDayForecast(currentLat, currentLon);
+	// M.AutoInit(); causes runtime error - use individual inits below
+	$('.sidenav').sidenav();
+	$('.modal').modal();
+	$('select').formSelect();
 });
 
 // Retrieves park data from either localstorage or by making API call
@@ -68,34 +72,34 @@ function initializeParkData() {
 			url: npsURL,
 			method: "GET",
 		})
-			.then(function (response) {
-				// Check to make sure park is only in GA (not multi-state park), then add to parkList
-				var newIndex = 0;
+		.then(function (response) {
+			// Check to make sure park is only in GA (not multi-state park), then add to parkList
+			var newIndex = 0;
 
-				response.data.forEach(function (item) {
-					if (item.states === "GA") {
-						newIndex = parkList.push(item) - 1; //push returns new length
-						addDropdownItems(newIndex, item.fullName);
-					}
-				});
-
-				if (parkList.length > 0) {
-					localStorage.setItem(parkListName, JSON.stringify(parkList));
+			response.data.forEach(function (item) {
+				if (item.states === "GA") {
+					newIndex = parkList.push(item) - 1; //push returns new length
+					addDropdownItems(newIndex, item.fullName);
 				}
-
-				// Hide loading, show dropdown menu
-				$("#loading").hide();
-				$("#parksChooserDiv").show();
-				$("#park-info").show();
-				loadParkWeatherAndMap(0);
-				window.location.reload(); // refresh page to get dropdown to display properly
-			})
-			.catch(function (error) {
-				// Hide loading
-				$("#loading").hide();
-				// TODO: use something other than alert
-				alert("Sorry, cannot retrieve park data. Try again later.");
 			});
+
+			if (parkList.length > 0) {
+				localStorage.setItem(parkListName, JSON.stringify(parkList));
+			}
+
+			// Hide loading, show dropdown menu
+			$("#loading").hide();
+			$("#parksChooserDiv").show();
+			$("#park-info").show();
+			loadParkWeatherAndMap(0);
+			window.location.reload(); // refresh page to get dropdown to display properly
+		})
+		.catch(function (error) {
+			// Hide loading, display error message
+			$("#loading").hide();
+			$("#errorMsg").text("Sorry, cannot retrieve park information. Please try again later.");
+			$(".modal").modal('open');
+		});
 	}
 }
 
@@ -110,11 +114,11 @@ function loadParkImages(index) {
 		$("#pic-carousel").empty(); // empty previous park's images from carousel
 
 		// Make sure images were provided for selected park
-		if (parkList[index].images.length>0) {
+		if (parkList[index].images.length > 0) {
 			for (let i = 0; i < parkList[index].images.length; i++) {
-				$("#pic-carousel").append(html1 + parkList[index].images[i].url + html2 + 
+				$("#pic-carousel").append(html1 + parkList[index].images[i].url + html2 +
 					parkList[index].images[i].altText + html3);
-			}		
+			}
 			$('.carousel').carousel();
 		}
 		else {
@@ -160,6 +164,10 @@ function getFiveDayForecast(lat, lon) {
 
 	$.getJSON(URL, function (data) {
 		makeDailyForecast(data);
+	})
+	.fail(function() {
+		$("#errorMsg").text("Sorry, cannot retrieve weather information. Please try again later.");
+		$(".modal").modal('open');
 	});
 }
 
@@ -221,8 +229,7 @@ function displayMap() {
 	parkMap.setView([currentLat, currentLon], 13);
 
 	L.tileLayer("https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=" + mapBoxAPI, {
-		attribution:
-			'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+		attribution: 'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
 		maxZoom: 18,
 		id: "mapbox/streets-v11",
 		tileSize: 512,
