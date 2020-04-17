@@ -18,6 +18,10 @@ h5 {
 	margin-left: 10px;
 }
 
+.page-name {
+	min-width: 175px;
+}
+
 .map {
 	height: 400px;
 	width: 100%;
@@ -54,7 +58,7 @@ h5 {
 }
 
 #parksChooserDiv {
-	width: 300px;
+	width: 375px;
 }
 
 #desktop-site {

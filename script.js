@@ -20,11 +20,11 @@ $(document).ready(function () {
 	getFiveDayForecast(currentLat, currentLon);
 
 	$("#parksChooser").change(doParkPick); // onChange event for dropdown list
-	$("#parksChooser2").change(doParkPick); // onChange event for dropdown list
+	$(".park-choice").click(doParkPick);
 
 	// Materialize animation code for front - end
 	// M.AutoInit(); causes runtime error - use individual inits below
-	$('.sidenav').sidenav();
+	$('.sidenav').sidenav({edge: "right"});
 	$('.modal').modal();
 	$('select').formSelect();
 });
@@ -42,13 +42,16 @@ function initializeParkData() {
 		const parkHtml2 = ">";
 		const parkHtml2alt = " selected>";
 		const parkHtml3 = "</option>";
+		const sideHtml1 = '<li class="park-choice" value='
+		const sideHtml2 = '>';
+		const sideHtml3 = '</li>';
 
 		if (index === 0) {
 			$("#parksChooser").append(parkHtml1 + index + parkHtml2alt + name + parkHtml3);
-			$("#parksChooser2").append(parkHtml1 + index + parkHtml2alt + name + parkHtml3);
+			$("#mobile-demo").append(sideHtml1 + index + sideHtml2 + name + sideHtml3);
 		} else {
 			$("#parksChooser").append(parkHtml1 + index + parkHtml2 + name + parkHtml3);
-			$("#parksChooser2").append(parkHtml1 + index + parkHtml2 + name + parkHtml3);
+			$("#mobile-demo").append(sideHtml1 + index + sideHtml2 + name + sideHtml3);
 		}
 	}
 
@@ -157,6 +160,10 @@ function doParkPick(event) {
 	event.preventDefault();
 	var index = $(this).val();
 	loadParkWeatherAndMap(index);
+	// If on mobile, then need to close side nav
+	if ($(this).is("li")) {
+		$('.sidenav').sidenav('close');
+	}
 }
 
 function getFiveDayForecast(lat, lon) {
