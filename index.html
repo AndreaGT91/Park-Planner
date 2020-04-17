@@ -1,22 +1,168 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>National Parks in GA</title>
+  <meta charset="UTF-8" />
+  <!--Let browser know website is optimized for mobile-->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+  <title>GA Park Planner</title>
+
+  <!--Import materialize.css-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+  <!-- Import Leaflet css -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css"
+    integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
+    crossorigin="" />
+  <!-- Import Open Layers -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.3.1/css/ol.css"
+    type="text/css">
+  <link rel="stylesheet" href="./style.css">
 </head>
-<body>
-    <!-- Loading image to be displayed while loading park data -->
-    <img src="https://media.giphy.com/media/3ov9k0BZQL358k458s/giphy.gif" alt="Loading" id="loading">
 
-    <!-- Drop down list for parks; list built in javascript -->
-    <div id="parksChooserDiv">
-        <label for="parksChooser">Pick a park:</label>
-        <select id="parksChooser">
-        </select>
+<body class="back-color">
+
+  <div class="hide-on-small-only">
+    <nav class="m12" role="navigation">
+      <div class="nav-wrapper navbar-fixed">
+        <a href="#" class="brand-logo"> Park Planner </a>
+        <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons"></i></a>
+        <div class="input-field right" id="parksChooserDiv">
+          <select id="parksChooser">
+            <option value="" disabled>Pick a park:</option>
+            <!-- dropdown list built in javascript -->
+          </select>
+        </div>
+      </div>
+    </nav>
+  </div>
+
+  <div class="hide-on-med-and-up">
+    <nav class="s12 " role="navigation">
+      <div class="nav-wrapper navbar-fixed">
+        <a href="#" class="brand-logo"> Park Planner </a>
+        <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons"></i></a>
+      </div>
+        
+      <nav class="s12" role="navigation" style="margin-top: 10px;">
+        <div class="nav-wrapper navbar-fixed">
+          <div class="input-field right" id="parksChooserDiv">
+            <select id="parksChooser2">
+              <option value="" disabled>Pick a park:</option>
+              <!-- dropdown list built in javascript -->
+            </select>
+          </div>
+        </div>
+      </nav>
+
+    </nav>
+  </div>
+
+  <!-- Left info box and right carousel -->
+  <div class="park-info-box">
+    <div class="row">
+      <div class="col m5">
+
+        <!-- Left side park info card -->
+        <div class="card park-info-card">
+          <!-- Main display of park info; hidden while initially loading park data -->
+          <div class="card-content white-text" id="park-info" hidden>
+            <span class="card-title" id="park-name">Park Name</span>
+            <hr>
+            <ul>
+              <li id="park-city">City: </li> <br>
+              <li>Description:
+              <li id="park-desc"></li>
+              </li> <br>
+              <li id="park-cost">Entrance Fee: </li><br>
+              <li>Park Hours: </li>
+              <li id="sun"></li>
+              <li id="mon"></li>
+              <li id="tue"></li>
+              <li id="wed"></li>
+              <li id="thu"></li>
+              <li id="fri"></li>
+              <li id="sat"></li>
+            </ul>
+          </div>
+          <!-- Temporary display while making API call to National Park Service -->
+          <div class="card-content white-text" id="loading">
+            <h3 center>Welcome to the Georgia Park Planner</h3><br>
+            <h5>Please wait while we load the park information. This may take up to a minute.</h5>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Carousel -->
+      <div class="col m7 valign-wrapper" style="margin-top:15px">
+        <div class="carousel back-color" id="pic-carousel">
+            <!-- List of images built in javascript -->
+        </div>
+      </div>
     </div>
+  </div>
 
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-    <script src="./script.js"></script>
+  <!-- The weather and map are hidden until user picks a park -->
+  <div id="park-weather-map" hidden>
+    <!-- Weather forecast -->
+    <hr class="line-break">
+    <div>
+      <h5 class="white-text center">Weather Forecast</h5>
+      <div id="forecastFiveDay" class="row">
+        <div class="">
+        <div class="col m2" >
+          <div class="card" >
+            <div class="card-content white-text center park-weather">
+              <span class="card-title">2020-04-15</span>
+              <img src="http://openweathermap.org/img/wn/03d@2x.png">
+              <p>Temp: 74.3 °F</p>
+              <br>
+              <p>Humidity: 88 %</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      </div>
+
+    </div>
+  
+    <!-- Display map to park -->
+    <hr class="line-break">
+    <div>
+      <h5 class="white-text center">Map to Park</h5>
+      <div class="row">
+        <div class="col m12 s12">
+          <div class="map" id="park-map">
+            <!-- map goes here -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-----------------  Footer Section ------------ -->
+  <footer class="page-footer park-footer">
+    <div class="footer-copyright">
+      <div class="container center-align">Contact Us: <a class="contact-info"
+          href="mailto:gaparkplanner@gmail.com">GAParkPlanner@gmail.com</a></div>
+    </div>
+  </footer>
+
+  <!-- jQuery -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <!-- Materialize -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+  <!-- Leaflet -->
+  <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"
+    integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew=="
+    crossorigin=""></script>
+  <!-- Open Layer -->
+  <script src="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.3.1/build/ol.js"></script>
+  <!-- This prevents passive event violation, but causes error in materialize -->
+  <!-- <script type="text/javascript" src="https://unpkg.com/default-passive-events"></script> -->
+  <!-- Park Planner -->
+  <script src="script.js"></script>
 </body>
+
 </html>
