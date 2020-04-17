@@ -106,7 +106,7 @@ function initializeParkData() {
 	}
 }
 
-// Load park images into array
+// Load park images into carousel
 function loadParkImages(index) {
 	const html1 = '<a class="carousel-item" style="width:90%; height:100%"><img src="';
 	const html2 = '" alt="';
@@ -125,7 +125,7 @@ function loadParkImages(index) {
 			$('.carousel').carousel();
 		}
 		else {
-			$("#pic-carousel").append("<br><br><br><br><br><br><br><br><br><br><h5 class='center-align'>No images available</h5>");
+			$("#pic-carousel").append("<br><br><br><br><br><br><br><h5 class='center-align'>No images available</h5>");
 		}
 	}
 }
