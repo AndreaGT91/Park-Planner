@@ -3,12 +3,17 @@
 
 #
 
-#
+# Elevator Pitch
+Looking around you at somepoint during the pandemic (COVID-19), during times you have been stuck indoors wondering where to go, how to spend time with your family outdoors, a place to clear your head, relieve yourself of stress, anxiety and never really making a decision at the end of the day? 
+We as developers understand that need and have designed a website with well-thought of features that will handle all those needs and will definitely make your life relatively easier. Just visit Park-Planner.com.:)
+
+
 # Project Description
 Park Planner is an interactive website which allows Users to conveniently find parks in the State of Georgia. It offers descriptive information about the national parks, captivating pictures - displaying the beauty each park possess, their location, a five-day weather forecast - if favorable or worse, including the humidity. The session will be stored in a database. This will allow the user to actively track the weather anytime using the weather map. In addition to this, the user will have the ability to use their map for directions to their intended park.
 
 # User Story 
 As a quarantined resident of Georgia, I want help deciding where to go when I get out of the house, so I can get some fresh air, sunshine, and to feel free again. Also, it would be great to have a pleasant experience of nature. 
+
 # * Motivation *
 Thinking about all the families locked in during this quarantine period of COVID-19, people are suffering from depression, anxiety and indoor sickness. it inspired our team to create Park Planner that provides several users access to the National Parks without any hassle.  Creating Park Planner, allows several residents to look forward to spending time outdoors, alleviate their moods, to be able to receive sunlight.
 

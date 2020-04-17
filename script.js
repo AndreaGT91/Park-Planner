@@ -65,9 +65,9 @@ function initializeParkData() {
 	} else {
 		// Make call to National Park Service to get a list of GA parks
 		$.ajax({
-			url: npsURL,
-			method: "GET",
-		})
+				url: npsURL,
+				method: "GET",
+			})
 			.then(function (response) {
 				// Check to make sure park is only in GA (not multi-state park), then add to parkList
 				var newIndex = 0;
@@ -110,14 +110,13 @@ function loadParkImages(index) {
 		$("#pic-carousel").empty(); // empty previous park's images from carousel
 
 		// Make sure images were provided for selected park
-		if (parkList[index].images.length>0) {
+		if (parkList[index].images.length > 0) {
 			for (let i = 0; i < parkList[index].images.length; i++) {
-				$("#pic-carousel").append(html1 + parkList[index].images[i].url + html2 + 
+				$("#pic-carousel").append(html1 + parkList[index].images[i].url + html2 +
 					parkList[index].images[i].altText + html3);
-			}		
+			}
 			$('.carousel').carousel();
-		}
-		else {
+		} else {
 			$("#pic-carousel").append("<br><br><br><br><br><br><br><br><br><br><h5 class='center-align'>No images available</h5>");
 		}
 	}
@@ -221,8 +220,7 @@ function displayMap() {
 	parkMap.setView([currentLat, currentLon], 13);
 
 	L.tileLayer("https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=" + mapBoxAPI, {
-		attribution:
-			'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+		attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
 		maxZoom: 18,
 		id: "mapbox/streets-v11",
 		tileSize: 512,
