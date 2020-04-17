@@ -96,7 +96,7 @@
 
       <!-- Carousel -->
       <div class="col m7 valign-wrapper" style="margin-top:15px">
-        <div class="carousel back-color" id="pic-carousel">
+        <div class="carousel back-color" style="height:600px" id="pic-carousel">
             <!-- List of images built in javascript -->
         </div>
       </div>
@@ -141,7 +141,18 @@
     </div>
   </div>
 
-  <!-----------------  Footer Section ------------ -->
+  <!-- Modal for error messages -->
+  <div class="modal" tabindex="-1">
+    <div class="modal-content">
+      <h4>Park Planner Message:</h4>
+      <p id="errorMsg"></p> <!-- error message set by javascript -->
+    </div>
+    <div class="modal-footer">
+      <a href="#!" class="modal-close waves-effect waves-green btn-flat" aria-label="Close">Close</a>
+    </div>
+  </div>
+  
+<!-----------------  Footer Section ------------ -->
   <footer class="page-footer park-footer">
     <div class="footer-copyright">
       <div class="container center-align">Contact Us: <a class="contact-info"
