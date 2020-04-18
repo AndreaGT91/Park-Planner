@@ -24,9 +24,9 @@ $(document).ready(function () {
 
 	// Materialize animation code for front - end
 	// M.AutoInit(); causes runtime error - use individual inits below
-	$('.sidenav').sidenav({edge: "right"});
-	$('.modal').modal();
-	$('select').formSelect();
+	$(".sidenav").sidenav({ edge: "right" });
+	$(".modal").modal();
+	$("select").formSelect();
 });
 
 // Retrieves park data from either localstorage or by making API call
@@ -42,9 +42,9 @@ function initializeParkData() {
 		const parkHtml2 = ">";
 		const parkHtml2alt = " selected>";
 		const parkHtml3 = "</option>";
-		const sideHtml1 = '<li class="park-choice" value='
-		const sideHtml2 = '>';
-		const sideHtml3 = '</li>';
+		const sideHtml1 = '<li class="park-choice" value=';
+		const sideHtml2 = ">";
+		const sideHtml3 = "</li>";
 
 		if (index === 0) {
 			$("#parksChooser").append(parkHtml1 + index + parkHtml2alt + name + parkHtml3);
@@ -75,34 +75,34 @@ function initializeParkData() {
 			url: npsURL,
 			method: "GET",
 		})
-		.then(function (response) {
-			// Check to make sure park is only in GA (not multi-state park), then add to parkList
-			var newIndex = 0;
+			.then(function (response) {
+				// Check to make sure park is only in GA (not multi-state park), then add to parkList
+				var newIndex = 0;
 
-			response.data.forEach(function (item) {
-				if (item.states === "GA") {
-					newIndex = parkList.push(item) - 1; //push returns new length
-					addDropdownItems(newIndex, item.fullName);
+				response.data.forEach(function (item) {
+					if (item.states === "GA") {
+						newIndex = parkList.push(item) - 1; //push returns new length
+						addDropdownItems(newIndex, item.fullName);
+					}
+				});
+
+				if (parkList.length > 0) {
+					localStorage.setItem(parkListName, JSON.stringify(parkList));
 				}
+
+				// Hide loading, show dropdown menu
+				$("#loading").hide();
+				$("#parksChooserDiv").show();
+				$("#park-info").show();
+				loadParkWeatherAndMap(0);
+				window.location.reload(); // refresh page to get dropdown to display properly
+			})
+			.catch(function (error) {
+				// Hide loading, display error message
+				$("#loading").hide();
+				$("#errorMsg").text("Sorry, cannot retrieve park information. Please try again later.");
+				$(".modal").modal("open");
 			});
-
-			if (parkList.length > 0) {
-				localStorage.setItem(parkListName, JSON.stringify(parkList));
-			}
-
-			// Hide loading, show dropdown menu
-			$("#loading").hide();
-			$("#parksChooserDiv").show();
-			$("#park-info").show();
-			loadParkWeatherAndMap(0);
-			window.location.reload(); // refresh page to get dropdown to display properly
-		})
-		.catch(function (error) {
-			// Hide loading, display error message
-			$("#loading").hide();
-			$("#errorMsg").text("Sorry, cannot retrieve park information. Please try again later.");
-			$(".modal").modal('open');
-		});
 	}
 }
 
@@ -113,18 +113,16 @@ function loadParkImages(index) {
 	const html3 = '"></a>';
 
 	// Make sure index is valid
-	if ((index >= 0) && (index < parkList.length)) {
+	if (index >= 0 && index < parkList.length) {
 		$("#pic-carousel").empty(); // empty previous park's images from carousel
 
 		// Make sure images were provided for selected park
 		if (parkList[index].images.length > 0) {
 			for (let i = 0; i < parkList[index].images.length; i++) {
-				$("#pic-carousel").append(html1 + parkList[index].images[i].url + html2 +
-					parkList[index].images[i].altText + html3);
+				$("#pic-carousel").append(html1 + parkList[index].images[i].url + html2 + parkList[index].images[i].altText + html3);
 			}
-			$('.carousel').carousel();
-		}
-		else {
+			$(".carousel").carousel();
+		} else {
 			$("#pic-carousel").append("<br><br><br><br><br><br><br><h5 class='center-align'>No images available</h5>");
 		}
 	}
@@ -162,7 +160,7 @@ function doParkPick(event) {
 	loadParkWeatherAndMap(index);
 	// If on mobile, then need to close side nav
 	if ($(this).is("li")) {
-		$('.sidenav').sidenav('close');
+		$(".sidenav").sidenav("close");
 	}
 }
 
@@ -171,10 +169,9 @@ function getFiveDayForecast(lat, lon) {
 
 	$.getJSON(URL, function (data) {
 		makeDailyForecast(data);
-	})
-	.fail(function() {
+	}).fail(function () {
 		$("#errorMsg").text("Sorry, cannot retrieve weather information. Please try again later.");
-		$(".modal").modal('open');
+		$(".modal").modal("open");
 	});
 }
 
@@ -186,7 +183,7 @@ function makeCurrentForecast(time, data) {
 			<div class="card-content white-text center" style="width: 200px;">
 			  <span class="card-title">${time}</span>
 			  <img src="http://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png"></img>
-			  <p>Temp: ${data.main.temp} °F</p>
+			  <p>Temp: ${Math.floor(parseFloat(data.main.temp))} °F</p>
 			  <br>
 			  <p>Humidity: ${data.main.humidity} %</p>
 			</div>
@@ -220,7 +217,7 @@ function makeDailyForecast(data) {
 					<div class="card-content white-text center" style="width: 200px;">
 						<span class="card-title">${makeTime}</span>
 						<img src="http://openweathermap.org/img/wn/${dailyData.weather[0].icon}@2x.png"></img>
-						<p>Temp: ${dailyData.main.temp} °F</p>
+						<p>Temp: ${Math.floor(parseFloat(dailyData.main.temp))} °F</p>
 						<br>
 							<p>Humidity: ${dailyData.main.humidity} %</p>
 			  </div>
